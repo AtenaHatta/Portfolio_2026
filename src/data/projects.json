@@ -1,0 +1,249 @@
+{
+  "projects": [
+    {
+      "id": "e-certificate",
+      "type": "Web Platform",
+      "title": "E-Certificate Issuance Web platform",
+      "technologies": ["Vue", "TypeScript", "NodeJS", "MySQL", "Cloudinary"],
+      "year": "March, 2025",
+      "role": "Full stack Developer",
+      "member": "2 Developers",
+      "demoUrl": "#",
+      "sourceUrl": "#",
+      "designUrl": "#",
+      "hiddenSections": ["Security", "Impact & Reflection"],
+      "hideLinks": true,
+      "topImage": "/assets/certificate-hero.png",
+      "sections": {
+        "product-overview": {
+          "heading": "Digital Certificate Generation & Sharing System",
+          "body": [
+            "Developed an online certificate issuance system that allows students to instantly receive and share their certificates digitally.",
+            "Each certificate includes a QR code, which redirects users to a public certificate verification page, enabling students to share verified certificates on platforms like LinkedIn, Facebook, and X (Twitter)."
+          ],
+          "image": "/assets/certificate-preview.png"
+        },
+        "architecture": {
+          "body": [],
+          "image": "/assets/architecture-diagram.png",
+          "numberedItems": [
+            {
+              "title": "Client → API → Server → Database (phpMyAdmin)",
+              "description": "Student information is submitted and stored in the database."
+            },
+            {
+              "title": "Server → Cloudinary",
+              "description": "Generated certificate images are uploaded to Cloudinary for public access."
+            },
+            {
+              "title": "Certificate Page",
+              "description": "The system dynamically creates QR-code-embedded certificates using CSS and PDF-lib.",
+              "subPoints": [
+                "Certificate preview: localhost:5173/students/${id}",
+                "Public certificate image: localhost:5173/api/certificates/${certificateID}.jpg"
+              ]
+            },
+            {
+              "title": "Sharing Feature",
+              "description": "Share buttons for LinkedIn, Facebook, and X are implemented. Facebook requires special configuration for Facebook Crawler Requests to display preview images."
+            }
+          ]
+        },
+        "constraints--trade-offs": {
+          "heading": "Tech stack",
+          "body": [
+            "Why Vue 3: Vue 3 offered a lightweight and flexible structure, especially for building reactive certificate forms and maintaining fast performance through Vite's dev server."
+          ],
+          "techStackSections": [
+            {
+              "title": "Frontend",
+              "items": [
+                "Framework: Vue 3 (Composition API) + TypeScript",
+                "Build Tool: Vite",
+                "Styling: Tailwind CSS, Tailwind Merge, Tailwind Animate",
+                "Routing: Vue Router",
+                "Form Handling: Zod, Vue Hook Form Resolver",
+                "PDF / Certificate Rendering: PDF-lib, html2canvas, jsPDF",
+                "Charts & Visualization: Chart.js, Vue Chart.js, Chart.js Plugin Datalabels, Recharts",
+                "Utilities: VueUse, Date-fns, Axios, QRCode, Quill, Vue3-Toastify"
+              ]
+            },
+            {
+              "title": "Backend",
+              "items": [
+                "Runtime / Framework: Express.js (TypeScript)",
+                "Database: MySQL",
+                "File Uploads: Multer",
+                "Cloud Storage: Cloudinary",
+                "PDF/Image Conversion: pdf-poppler (initial test), later replaced with Cloudinary upload streams",
+                "Environment Management: dotenv",
+                "CORS: cors (Cross-Origin Resource Sharing)"
+              ]
+            },
+            {
+              "title": "Development & Tooling",
+              "items": [
+                "Language: TypeScript",
+                "Dev Tools: ts-node, tsx, Vite, Vue TSC",
+                "Version Control & CI/CD: GitHub Actions",
+                "Deployment:",
+                "Server: Vercel",
+                "Client: Hostinger",
+                "Media Storage: Cloudinary",
+                "Legacy Data Source: WordPress (student info API integration)"
+              ]
+            }
+          ]
+        },
+        "process": {
+          "body": [],
+          "processBlocks": [
+            {
+              "title": "1. Blob-to-JPEG Conversion in a Serverless Environment",
+              "subsections": [
+                {
+                  "heading": "Challenge:",
+                  "items": [
+                    {
+                      "title": "1. Converting PDF to JPEG using Poppler (Initial Attempt)",
+                      "body": "Converting PDF blobs to JPEG in a serverless environment (Vercel) was challenging. Initial attempt using Poppler (node-poppler) failed because Vercel does not support native binaries (.so, .dll), making it unsuitable for a serverless environment."
+                    },
+                    {
+                      "title": "2. Generating the Diploma with CSS (Second Attempt)",
+                      "body": "A second attempt used CSS for the diploma layout and Puppeteer (a Node.js library for headless Chrome) to convert styled HTML to PDF. PDF generation worked but the rendered images appeared blurry and pixelated in the browser, making it unsuitable for production."
+                    }
+                  ]
+                },
+                {
+                  "heading": "Solution:",
+                  "body": [
+                    "Conversion was moved to the frontend using PDF-lib and Canvas to generate a Base64 image, which was then uploaded to Cloudinary as a JPEG via the Express API. This removed native dependencies and ensured compatibility with Vercel's serverless runtime."
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "2. Optimizing File Upload Workflow After Conversion",
+              "subsections": [
+                {
+                  "heading": "Challenge:",
+                  "body": [
+                    "Initially, I planned to upload the generated image to the WordPress Media API, since all student data was stored in WordPress. However, direct upload attempts from the Express server consistently failed due to CORS and authentication restrictions."
+                  ]
+                },
+                {
+                  "heading": "Solution:",
+                  "body": [
+                    "I switched to Cloudinary, which provides a reliable and developer-friendly API for direct uploads. Using cloudinary.uploader.upload_stream(), I could efficiently upload the converted certificate image and receive a public URL for display. This allowed seamless integration with both the backend (phpMyAdmin) and frontend certificate page."
+                  ]
+                }
+              ],
+              "imageSrc": "/assets/process-upload-cloudinary.png"
+            },
+            {
+              "title": "3. Implementing Server-Side OG Tag Rendering for Facebook Previews",
+              "subsections": [
+                {
+                  "heading": "Challenge:",
+                  "body": [
+                    "When sharing the certificate page on social platforms, LinkedIn and X (Twitter) displayed the preview image correctly, but Facebook did not. This happened because Facebook's crawler does not execute JavaScript — it only reads the static HTML and checks for Open Graph (OG) meta tags. Since my app was a Single Page Application (SPA) built with Vue, those tags were injected client-side and invisible to Facebook's crawler."
+                  ]
+                },
+                {
+                  "heading": "Solution:",
+                  "body": [
+                    "I implemented a dedicated server route (for example, /api/certificates/share/:id) that returns pre-rendered HTML containing the correct Open Graph meta tags, including og:image, og:title, and og:description, as well as a link to the public certificate page. Social platforms like Facebook and LinkedIn don't run JavaScript; they simply fetch the initial HTML for the shared URL and scan it for tags. In a typical SPA, those tags are injected client-side and are therefore invisible to the crawler. By moving the OG tags into a server-rendered endpoint that directly includes the Cloudinary image URL, Facebook was able to read the metadata correctly, show the certificate preview image, and redirect users to the public certificate page when they clicked the preview."
+                  ]
+                }
+              ],
+              "imageSrc": "/assets/facebook-og-preview.png"
+            }
+          ]
+        },
+        "performance--accessibility": {
+          "body": [
+            "Optimized certificate generation to minimize image size without losing clarity.",
+            "Ensured all interactive elements (buttons, QR, inputs) meet accessibility color-contrast and keyboard navigation standards."
+          ]
+        },
+        "impact-reflection": {
+          "body": [
+            "This project deepened my understanding of compatibility between cloud platforms and libraries, especially regarding native binaries. I also gained hands-on experience in:",
+            "Debugging style inheritance conflicts across frameworks.",
+            "Managing multi-environment deployments (Vercel + Hostinger + WordPress data).",
+            "Strengthening troubleshooting skills for complex full-stack integrations."
+          ]
+        },
+        "testing--ci/cd": {
+          "body": [
+            "Implemented GitHub Actions for automated deployment and build checks.",
+            "Server: Deployed via Vercel",
+            "Client: Hosted on Hostinger",
+            "Data: Fetched dynamically from existing WordPress datasets"
+          ]
+        },
+        "next-steps": {
+          "body": [
+            "Evaluate backend-side libraries before deployment to ensure compatibility with the target cloud platform (e.g., AWS Lambda, Vercel).",
+            "Explore image generation using serverless functions for better performance and reliability."
+          ]
+        },
+        "key-learnings": {
+          "body": [
+            "Integrated WordPress data with a custom certificate platform.",
+            "Learned how library behavior varies depending on the cloud platform environment.",
+            "Strengthened practical understanding of frontend–backend–cloud interoperability."
+          ]
+        }
+      }
+    },
+    {
+      "id": "dynamic-cms",
+      "type": "Dynamic Website",
+      "title": "Dynamic CMS-Driven Website",
+      "technologies": ["Nextjs", "Convex", "TypeScript", "TailwindCSS", "Convex"],
+      "year": "Dec 24",
+      "role": "Full stack Developer",
+      "member": "2 Developers",
+      "demoUrl": "#",
+      "sourceUrl": "#",
+      "designUrl": "#"
+    },
+    {
+      "id": "marketing-analytics",
+      "type": "Dynamic Website",
+      "title": "Marketing Analytics Website",
+      "technologies": ["Vue", "TypeScript", "PostgreSQL", "Strapi", "Cloudinary"],
+      "year": "Dec 24",
+      "role": "Full stack Developer",
+      "member": "2 Developers",
+      "demoUrl": "#",
+      "sourceUrl": "#",
+      "designUrl": "#"
+    },
+    {
+      "id": "wordpress-hubspot",
+      "type": "CMS",
+      "title": "Custom WordPress Website (HubSpot + Custom CSS)",
+      "technologies": ["WordPress", "Elementor", "HubSpot", "Custom CSS"],
+      "year": "Dec 24",
+      "role": "Full stack Developer",
+      "member": "2 Developers",
+      "demoUrl": "#",
+      "sourceUrl": "#",
+      "designUrl": "#"
+    }
+  ],
+  "detailSections": [
+    "Product Overview",
+    "Architecture",
+    "Constraints & Trade-offs",
+    "Process",
+    "Performance & Accessibility",
+    "Testing & CI/CD",
+    "Security",
+    "Impact & Reflection",
+    "Next Steps",
+    "Key Learnings"
+  ]
+}

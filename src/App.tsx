@@ -1,15 +1,34 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useTheme } from './hooks/useTheme'
+import Header from './components/Header'
+import HomePage from './pages/HomePage'
+import AboutPage from './pages/AboutPage'
+import ProjectsPage from './pages/ProjectsPage'
+import ProjectDetailPage from './pages/ProjectDetailPage'
+
 function App() {
+  const { isDarkMode, toggleTheme, colors } = useTheme()
+
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">
-          Portfolio 2026
-        </h1>
-        <p className="text-gray-600">
-          Vite + React + TypeScript + Tailwind CSS
-        </p>
+    <Router>
+      <div 
+        className="min-h-screen transition-colors duration-200"
+        style={{
+          backgroundColor: colors.background.bg,
+          color: colors.background.text,
+        }}
+      >
+        <Header isDarkMode={isDarkMode} toggleDarkMode={toggleTheme} colors={colors} />
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage colors={colors} />} />
+            <Route path="/about" element={<AboutPage colors={colors} />} />
+            <Route path="/project" element={<ProjectsPage colors={colors} />} />
+            <Route path="/project/:id" element={<ProjectDetailPage colors={colors} />} />
+          </Routes>
+        </main>
       </div>
-    </div>
+    </Router>
   )
 }
 
