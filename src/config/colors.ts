@@ -19,11 +19,14 @@ export const colors = {
       bg: '#000000', // black
     },
     chip: {
-      text: '#6B7280', // medium gray
-      bg: '#FAFAFA', // very light gray/off-white
+      text: '#374151', // dark gray for contrast on light bg
+      bg: '#E5E7EB', // light gray so tags have visible background
     },
     block: {
-      bg: '#F3F4F6', // light gray for Tech stack / Process blocks
+      bg: '#E5E7EB', // darker gray for Tech stack / Process blocks
+    },
+    challengeSolutionLabel: {
+      bg: '#E5E7EB', // gray for Challenge/Solution in light mode
     },
   },
   dark: {
@@ -49,7 +52,10 @@ export const colors = {
       bg: '#1F2937', // dark gray
     },
     block: {
-      bg: '#1F2937', // dark gray (same as chip for blocks)
+      bg: '#111827', // darker gray for Tech stack / Process blocks
+    },
+    challengeSolutionLabel: {
+      bg: '#0a0a0a', // black for Challenge/Solution in dark mode
     },
   },
 } as const

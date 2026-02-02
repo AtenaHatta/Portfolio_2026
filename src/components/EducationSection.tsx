@@ -61,7 +61,7 @@ function EducationSection({ colors }: EducationSectionProps) {
                       href={education.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden transition-opacity hover:opacity-100 opacity-70"
+                      className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden transition-opacity hover:opacity-100 opacity-50"
                     >
                       <img 
                         src={education.icon} 

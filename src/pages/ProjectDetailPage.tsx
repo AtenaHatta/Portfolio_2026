@@ -27,6 +27,7 @@ interface ProcessSubsection {
   heading: string
   body?: string[]
   items?: ProcessSubsectionItem[]
+  imageSrc?: string
 }
 
 interface ProcessBlock {
@@ -36,17 +37,28 @@ interface ProcessBlock {
   imageSrc?: string
 }
 
+interface KeyFeature {
+  title: string
+  description: string
+}
+
 interface SectionContent {
   heading?: string
   body: string[]
+  techStackBody?: string[]
   videoPlaceholder?: boolean
   image?: string
+  imageTitle?: string
+  imageBelowFirst?: string
+  imageBelowFirstTitle?: string
+  imageBelowHeading?: string
   highlightBlockEndIndex?: number
   numberedItems?: NumberedItem[]
   techStackSections?: TechStackSection[]
   processBlocks?: ProcessBlock[]
   imageAfterIndex?: number
   imageAfterIndexSrc?: string
+  keyFeatures?: KeyFeature[]
 }
 
 interface ProjectDetail {
@@ -359,6 +371,11 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                       <>
                         {project.sections[slug].image && (
                           <div className="mb-6">
+                            {(project.sections[slug] as SectionContent).imageTitle && (
+                              <p className="text-lg font-light mb-2" style={{ color: colors.background.text }}>
+                                {(project.sections[slug] as SectionContent).imageTitle}
+                              </p>
+                            )}
                             <button
                               type="button"
                               onClick={() => setModalImage(project.sections![slug].image!)}
@@ -374,6 +391,28 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                             </button>
                           </div>
                         )}
+                        {project.sections[slug].imageBelowFirst && (
+                          <div className="mb-6">
+                            {(project.sections[slug] as SectionContent).imageBelowFirstTitle && (
+                              <p className="text-lg font-light mb-2" style={{ color: colors.background.text }}>
+                                {(project.sections[slug] as SectionContent).imageBelowFirstTitle}
+                              </p>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => setModalImage(project.sections![slug].imageBelowFirst!)}
+                              className="block w-full text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white rounded-lg"
+                            >
+                              <img
+                                src={project.sections[slug].imageBelowFirst}
+                                alt=""
+                                className="rounded-lg hover:opacity-90 transition-opacity"
+                                style={getImageStyle(project.sections[slug].imageBelowFirst!)}
+                                onLoad={handleImageLoad}
+                              />
+                            </button>
+                          </div>
+                        )}
                         {project.sections[slug].heading && !project.sections[slug].techStackSections && (
                           <h3 className="text-xl font-light mb-4" style={{ color: colors.background.text }}>
                             {project.sections[slug].heading}
@@ -381,7 +420,120 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                         )}
                         {(() => {
                           const section = project.sections[slug]
+                          const numberedItems = section.numberedItems
                           const techStackSections = section.techStackSections
+                          if (slug === 'system-design' && numberedItems != null && numberedItems.length > 0 && techStackSections != null && techStackSections.length > 0) {
+                            // Architecture: Tech stack first, then numbered list (Client → Server, etc.)
+                            return (
+                              <div className="space-y-8">
+                                {/* 1. Tech stack block (first) */}
+                                <div className="space-y-4">
+                                  <div
+                                    className="p-6 rounded-lg space-y-5"
+                                    style={{
+                                      backgroundColor: colors.block?.bg ?? colors.chip.bg,
+                                      color: colors.chip.text,
+                                    }}
+                                  >
+                                    {section.heading && (
+                                      <h3
+                                        className="text-lg font-light"
+                                        style={{ color: colors.background.text }}
+                                      >
+                                        {section.heading}
+                                      </h3>
+                                    )}
+                                    {techStackSections.map((sec, i) => (
+                                    <div key={i} className="space-y-2">
+                                        <p
+                                          className="font-medium flex items-start gap-2"
+                                          style={{ color: colors.background.text }}
+                                        >
+                                          <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 bg-current opacity-80" aria-hidden />
+                                          {sec.title}
+                                        </p>
+                                        <ul className="ml-5 space-y-1 list-none">
+                                          {sec.items.map((item, j) => {
+                                            const colonIndex = item.indexOf(': ')
+                                            const keyPart = colonIndex >= 0 ? item.slice(0, colonIndex + 2) : ''
+                                            const valuePart = colonIndex >= 0 ? item.slice(colonIndex + 2) : item
+                                            return (
+                                              <li
+                                                key={j}
+                                                className="font-light leading-relaxed text-sm"
+                                              >
+                                                {keyPart ? (
+                                                  <>
+                                                    <span className="opacity-80" style={{ color: colors.background.text }}>{keyPart}</span>
+                                                    <span style={{ color: colors.background.text }}>{valuePart}</span>
+                                                  </>
+                                                ) : (
+                                                  <span className="opacity-80" style={{ color: colors.background.text }}>{item}</span>
+                                                )}
+                                              </li>
+                                            )
+                                          })}
+                                        </ul>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                                {/* Numbered list (2, 3, 4 for system-design) */}
+                                <ol className="space-y-6 list-none pl-0">
+                                  {numberedItems.map((item, i) => {
+                                    const num = slug === 'system-design' ? i + 2 : i + 1
+                                    return (
+                                      <li key={i} className="font-light">
+                                        <span className="font-medium" style={{ color: colors.background.text }}>
+                                          {num}. {item.title}
+                                        </span>
+                                        {item.description && (
+                                          <p className="mt-1 leading-relaxed opacity-80" style={{ color: colors.background.text }}>
+                                            {item.description}
+                                          </p>
+                                        )}
+                                        {item.subPoints && item.subPoints.length > 0 && (
+                                          <ul className="mt-2 ml-4 space-y-1 list-disc">
+                                            {item.subPoints.map((point, j) => (
+                                              <li key={j} className="leading-relaxed opacity-80" style={{ color: colors.background.text }}>
+                                                {point}
+                                              </li>
+                                            ))}
+                                          </ul>
+                                        )}
+                                      </li>
+                                    )
+                                  })}
+                                </ol>
+                                {/* Why Vue3?: (below numbered list for system-design) */}
+                                {((section as SectionContent).techStackBody != null && (section as SectionContent).techStackBody!.length > 0) && (
+                                  <div
+                                    className="p-6 rounded-lg space-y-4"
+                                    style={{
+                                      backgroundColor: colors.block?.bg ?? colors.chip.bg,
+                                      color: colors.chip.text,
+                                    }}
+                                  >
+                                    {(section as SectionContent).techStackBody!.map((paragraph, i) => (
+                                      i === 0 && paragraph === 'Why Vue3?:' ? (
+                                        <h3
+                                          key={i}
+                                          className="text-lg font-light"
+                                          style={{ color: colors.background.text }}
+                                        >
+                                          {paragraph}
+                                        </h3>
+                                      ) : (
+                                        <p key={i} className="font-light leading-relaxed opacity-80" style={{ color: colors.background.text }}>
+                                          {paragraph}
+                                        </p>
+                                      )
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            )
+                          }
                           if (techStackSections != null && techStackSections.length > 0) {
                             return (
                               <div className="space-y-4">
@@ -467,45 +619,66 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                     </p>
                                     {block.subsections ? (
                                       <div className="space-y-5">
-                                        {block.subsections.map((sub, j) => (
-                                          <div key={j} className="space-y-3">
-                                            <p
-                                              className="font-medium"
-                                              style={{ color: colors.background.text }}
+                                        {block.subsections.map((sub, j) => {
+                                          const isChallengeOrSolution = sub.heading === 'Challenge:' || sub.heading === 'Solution:'
+                                          return (
+                                            <div
+                                              key={j}
+                                              className="space-y-3"
                                             >
-                                              {sub.heading}
-                                            </p>
-                                            {sub.items ? (
-                                              <div className="space-y-4">
-                                                {sub.items.map((item, k) => (
-                                                  <div key={k} className="space-y-2">
-                                                    <p
-                                                      className="font-medium"
-                                                      style={{ color: colors.background.text }}
-                                                    >
-                                                      {item.title}
-                                                    </p>
-                                                    <p className="font-light leading-relaxed opacity-80">
-                                                      {item.body}
-                                                    </p>
-                                                    {/* 画像プレースホルダー - あとで追加 */}
-                                                    {/* <div
-                                                      className="w-full h-36 rounded border border-white/20"
-                                                      style={{ backgroundColor: colors.chip.bg }}
-                                                      aria-hidden
-                                                    /> */}
-                                                  </div>
-                                                ))}
-                                              </div>
-                                            ) : (
-                                              sub.body?.map((paragraph, k) => (
-                                                <p key={k} className="font-light leading-relaxed opacity-80">
-                                                  {paragraph}
-                                                </p>
-                                              ))
-                                            )}
-                                          </div>
-                                        ))}
+                                              <p
+                                                className={`font-medium ${isChallengeOrSolution ? 'inline-block rounded px-3 py-1.5' : ''}`}
+                                                style={
+                                                  isChallengeOrSolution
+                                                    ? { backgroundColor: (colors as { challengeSolutionLabel?: { bg: string } }).challengeSolutionLabel?.bg ?? colors.block?.bg ?? colors.chip.bg, color: colors.background.text }
+                                                    : { color: colors.background.text }
+                                                }
+                                              >
+                                                {sub.heading}
+                                              </p>
+                                              {sub.items ? (
+                                                <div className="space-y-4">
+                                                  {sub.items.map((item, k) => (
+                                                    <div key={k} className="space-y-2">
+                                                      <p
+                                                        className="font-medium"
+                                                        style={{ color: colors.background.text }}
+                                                      >
+                                                        {item.title}
+                                                      </p>
+                                                      <p className="font-light leading-relaxed opacity-80" style={{ color: colors.background.text }}>
+                                                        {item.body}
+                                                      </p>
+                                                    </div>
+                                                  ))}
+                                                </div>
+                                              ) : (
+                                                sub.body?.map((paragraph, k) => (
+                                                  <p key={k} className="font-light leading-relaxed opacity-80" style={{ color: colors.background.text }}>
+                                                    {paragraph}
+                                                  </p>
+                                                ))
+                                              )}
+                                              {sub.imageSrc && (
+                                                <div className="mt-4">
+                                                  <button
+                                                    type="button"
+                                                    onClick={() => setModalImage(sub.imageSrc!)}
+                                                    className="block w-full text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-lg"
+                                                  >
+                                                    <img
+                                                      src={sub.imageSrc}
+                                                      alt=""
+                                                      className="rounded-lg hover:opacity-90 transition-opacity max-w-full"
+                                                      style={getImageStyle(sub.imageSrc)}
+                                                      onLoad={handleImageLoad}
+                                                    />
+                                                  </button>
+                                                </div>
+                                              )}
+                                            </div>
+                                          )
+                                        })}
                                       </div>
                                     ) : (
                                       block.body?.map((paragraph, j) => (
@@ -536,7 +709,6 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                               </div>
                             )
                           }
-                          const numberedItems = section.numberedItems
                           if (numberedItems != null && numberedItems.length > 0) {
                             return (
                               <ol className="space-y-6 list-none pl-0">
@@ -605,6 +777,37 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                               </ul>
                             )
                           }
+                          const keyFeatures = (section as SectionContent).keyFeatures
+                          if (slug === 'product-overview' && keyFeatures != null && keyFeatures.length > 0) {
+                            return (
+                              <div className="space-y-6">
+                                <div className="space-y-4">
+                                  {body.map((paragraph, i) => (
+                                    <p key={i} className="font-light leading-relaxed opacity-80">
+                                      {paragraph}
+                                    </p>
+                                  ))}
+                                </div>
+                                <div className="space-y-3">
+                                  <h3 className="text-lg font-light" style={{ color: colors.background.text }}>
+                                    Key Features:
+                                  </h3>
+                                  <ul className="space-y-3 list-none pl-0">
+                                    {keyFeatures.map((feat, i) => (
+                                      <li key={i} className="font-light">
+                                        <span className="font-medium" style={{ color: colors.background.text }}>
+                                          {feat.title}:
+                                        </span>
+                                        <span className="opacity-80 ml-1" style={{ color: colors.background.text }}>
+                                          {feat.description}
+                                        </span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              </div>
+                            )
+                          }
                           return (
                             <div className="space-y-4">
                               {body.map((paragraph, i) => (
@@ -634,6 +837,23 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                             </div>
                           )
                         })()}
+                        {project.sections[slug].imageBelowHeading && (
+                          <div className="mt-6">
+                            <button
+                              type="button"
+                              onClick={() => setModalImage(project.sections![slug].imageBelowHeading!)}
+                              className="block w-full text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white rounded-lg"
+                            >
+                              <img
+                                src={project.sections[slug].imageBelowHeading}
+                                alt=""
+                                className="rounded-lg hover:opacity-90 transition-opacity w-full h-auto max-w-3xl"
+                                style={getImageStyle(project.sections[slug].imageBelowHeading!)}
+                                onLoad={handleImageLoad}
+                              />
+                            </button>
+                          </div>
+                        )}
                         {project.sections[slug].videoPlaceholder && (
                           <p className="mt-6 font-light italic opacity-70">
                             動画挿入

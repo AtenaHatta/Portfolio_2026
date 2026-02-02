@@ -7,7 +7,7 @@ interface AboutPageProps {
 }
 
 function AboutPage({ colors }: AboutPageProps) {
-  const interests = ['Hike', 'Tennis', 'Movie', 'Karaoke']
+  const interests = ['Visualizing', 'Designing', 'Building', 'Hiking']
 
   return (
     <>
@@ -51,12 +51,6 @@ function AboutPage({ colors }: AboutPageProps) {
               
               {/* Description Paragraphs */}
               <div className="mb-8 space-y-4">
-                <p 
-                  className="text-lg font-light leading-relaxed"
-                  style={{ color: colors.background.text }}
-                >
-                  I'm a Full stack Developer with a strong focus on React and TypeScript.
-                </p>
                 <p 
                   className="text-lg font-light leading-relaxed"
                   style={{ color: colors.background.text }}

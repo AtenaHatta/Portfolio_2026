@@ -4,7 +4,7 @@
       "id": "e-certificate",
       "type": "Web Platform",
       "title": "E-Certificate Issuance Web platform",
-      "technologies": ["Vue", "TypeScript", "NodeJS", "MySQL", "Cloudinary"],
+      "technologies": ["Vue", "TypeScript", "NodeJS", "MySQL", "Cloudinary", "Hostinger", "Vercel"],
       "year": "March, 2025",
       "role": "Full stack Developer",
       "member": "2 Developers",
@@ -21,38 +21,45 @@
             "Developed an online certificate issuance system that allows students to instantly receive and share their certificates digitally.",
             "Each certificate includes a QR code, which redirects users to a public certificate verification page, enabling students to share verified certificates on platforms like LinkedIn, Facebook, and X (Twitter)."
           ],
-          "image": "/assets/certificate-preview.png"
+          "image": "/assets/certificate-preview.png",
+          "keyFeatures": [
+            { "title": "Instant Generation", "description": "Client-side PDF rendering ensures zero server wait time." },
+            { "title": "Verification", "description": "Each certificate includes a unique QR code linked to a persistent public URL." },
+            { "title": "Social Sharing", "description": "Optimized Open Graph tags allow beautiful previews on platforms like Facebook and LinkedIn." },
+            { "title": "Secure Storage", "description": "Digital assets are stored in Cloudinary, while metadata is secured in MySQL." }
+          ]
         },
-        "architecture": {
+        "system-design": {
           "body": [],
-          "image": "/assets/architecture-diagram.png",
+          "image": "/assets/certificate-issuance-platform.png",
           "numberedItems": [
             {
-              "title": "Client → API → Server → Database (phpMyAdmin)",
-              "description": "Student information is submitted and stored in the database."
-            },
-            {
-              "title": "Server → Cloudinary",
-              "description": "Generated certificate images are uploaded to Cloudinary for public access."
-            },
-            {
-              "title": "Certificate Page",
-              "description": "The system dynamically creates QR-code-embedded certificates using CSS and PDF-lib.",
+              "title": "Server Orchestration (Express.js)",
+              "description": "The server acts as a secure middleware. It receives the payload and splits the data stream:",
               "subPoints": [
-                "Certificate preview: localhost:5173/students/${id}",
-                "Public certificate image: localhost:5173/api/certificates/${certificateID}.jpg"
+                "Assets: The image is uploaded to Cloudinary via upload streams.",
+                "Metadata: Essential records (Student ID, Issue Date, Image URL) are stored in MySQL."
               ]
             },
             {
-              "title": "Sharing Feature",
-              "description": "Share buttons for LinkedIn, Facebook, and X are implemented. Facebook requires special configuration for Facebook Crawler Requests to display preview images."
+              "title": "Dynamic Delivery & Verification",
+              "description": "",
+              "subPoints": [
+                "Public Access: Each certificate gets a unique, verifiable URL (/api/certificates/:id.jpg).",
+                "QR Verification: Scanning the QR code leads to a persistent verification page hosted on the client."
+              ]
+            },
+            {
+              "title": "Social Sharing Optimization",
+              "description": "A dedicated server-side route handles Open Graph (OG) tag injection. This ensures that crawlers from LinkedIn, Facebook, and X (Twitter) can correctly fetch and display the certificate preview image, bridging the gap between SPA architecture and social bots."
             }
-          ]
-        },
-        "constraints--trade-offs": {
-          "heading": "Tech stack",
-          "body": [
-            "Why Vue 3: Vue 3 offered a lightweight and flexible structure, especially for building reactive certificate forms and maintaining fast performance through Vite's dev server."
+          ],
+          "heading": "1. Tech stack",
+          "techStackBody": [
+            "Why Vue3?:",
+            "Optimized for Dashboard UX (SPA Architecture) The primary function of this application is an Admin Dashboard for school officers. Unlike public content sites, admin panels require a snappy, app-like experience. Vue's SPA architecture ensures that once the initial application is loaded, all subsequent operations are extremely fast with zero page reloads. This performance is ideal for the highly interactive UI required in a management environment.",
+            "High Productivity with Forms (Two-Way Binding) Certificate generation involves complex data entry and validation. Vue's two-way data binding (v-model) significantly reduces boilerplate code compared to React's one-way data flow. This allowed me to build and iterate on the complex form logic much faster.",
+            "Pragmatic Problem Solving (Avoiding Over-engineering) While frameworks like Next.js offer built-in SEO solutions, migrating the entire application just for the \"Social Media Share\" feature would have been over-engineering. Instead, I maintained the agility of Vue for the frontend and implemented a targeted backend solution (Express) for the specific OG tag requirement, balancing development efficiency with functional requirements."
           ],
           "techStackSections": [
             {
@@ -75,7 +82,7 @@
                 "Database: MySQL",
                 "File Uploads: Multer",
                 "Cloud Storage: Cloudinary",
-                "PDF/Image Conversion: pdf-poppler (initial test), later replaced with Cloudinary upload streams",
+                "PDF/Image Conversion: Cloudinary upload streams",
                 "Environment Management: dotenv",
                 "CORS: cors (Cross-Origin Resource Sharing)"
               ]
@@ -97,6 +104,13 @@
         },
         "process": {
           "body": [],
+          "image": "/assets/certificate-flowchart.png",
+          "imageTitle": "End-to-End User Workflow",
+          "imageBelowFirst": "/assets/architecture-diagram.png",
+          "imageBelowFirstTitle": "Full-Stack Implementation Overview"
+        },
+        "constraints--trade-offs": {
+          "body": [],
           "processBlocks": [
             {
               "title": "1. Blob-to-JPEG Conversion in a Serverless Environment",
@@ -105,11 +119,11 @@
                   "heading": "Challenge:",
                   "items": [
                     {
-                      "title": "1. Converting PDF to JPEG using Poppler (Initial Attempt)",
+                      "title": "1-1. Converting PDF to JPEG using Poppler",
                       "body": "Converting PDF blobs to JPEG in a serverless environment (Vercel) was challenging. Initial attempt using Poppler (node-poppler) failed because Vercel does not support native binaries (.so, .dll), making it unsuitable for a serverless environment."
                     },
                     {
-                      "title": "2. Generating the Bachelor of International Tourism certificate with CSS (Second Attempt)",
+                      "title": "1-2. Generating the Bachelor of International Tourism certificate with CSS",
                       "body": "A second attempt used CSS for the diploma layout and Puppeteer (a Node.js library for headless Chrome) to convert styled HTML to PDF. PDF generation worked but the rendered images appeared blurry and pixelated in the browser, making it unsuitable for production."
                     }
                   ]
@@ -118,7 +132,8 @@
                   "heading": "Solution:",
                   "body": [
                     "Conversion was moved to the frontend using PDF-lib and Canvas to generate a Base64 image, which was then uploaded to Cloudinary as a JPEG via the Express API. This removed native dependencies and ensured compatibility with Vercel's serverless runtime."
-                  ]
+                  ],
+                  "imageSrc": "/assets/blob-to-jpeg-diagram.png"
                 }
               ]
             },
@@ -135,10 +150,10 @@
                   "heading": "Solution:",
                   "body": [
                     "I switched to Cloudinary, which provides a reliable and developer-friendly API for direct uploads. Using cloudinary.uploader.upload_stream(), I could efficiently upload the converted certificate image and receive a public URL for display. This allowed seamless integration with both the backend (phpMyAdmin) and frontend certificate page."
-                  ]
+                  ],
+                  "imageSrc": "/assets/process-upload-cloudinary.png"
                 }
-              ],
-              "imageSrc": "/assets/process-upload-cloudinary.png"
+              ]
             },
             {
               "title": "3. Implementing Server-Side OG Tag Rendering for Facebook Previews",
@@ -146,17 +161,20 @@
                 {
                   "heading": "Challenge:",
                   "body": [
-                    "When sharing the certificate page on social platforms, LinkedIn and X (Twitter) displayed the preview image correctly, but Facebook did not. This happened because Facebook's crawler does not execute JavaScript — it only reads the static HTML and checks for Open Graph (OG) meta tags. Since my app was a Single Page Application (SPA) built with Vue, those tags were injected client-side and invisible to Facebook's crawler."
+                    "While LinkedIn and X correctly displayed link previews, Facebook failed to render the certificate image. This occurred because the application is a Vue.js SPA, where Open Graph (OG) meta tags are injected client-side via JavaScript. Facebook's crawler does not execute JavaScript, meaning it only saw the initial empty HTML shell without the necessary metadata."
                   ]
                 },
                 {
                   "heading": "Solution:",
                   "body": [
-                    "I implemented a dedicated server route (for example, /api/certificates/share/:id) that returns pre-rendered HTML containing the correct Open Graph meta tags, including og:image, og:title, and og:description, as well as a link to the public certificate page. Social platforms like Facebook and LinkedIn don't run JavaScript; they simply fetch the initial HTML for the shared URL and scan it for tags. In a typical SPA, those tags are injected client-side and are therefore invisible to the crawler. By moving the OG tags into a server-rendered endpoint that directly includes the Cloudinary image URL, Facebook was able to read the metadata correctly, show the certificate preview image, and redirect users to the public certificate page when they clicked the preview."
-                  ]
+                    "I implemented a server-side rendering strategy for OG tags. I created a dedicated backend route (e.g., /api/certificates/share/:id) that generates and serves static HTML containing the pre-populated og:image, og:title, and og:description tags.",
+                    "For Crawlers: When Facebook requests this URL, it receives static HTML with the correct Cloudinary image link instantly, allowing the preview to render.",
+                    "For Users: Clicking the preview redirects the user to the actual interactive Vue application.",
+                    "This approach bridged the gap between the serverless Vue frontend and legacy crawler behaviors without needing a full-scale SSR framework like Nuxt.js."
+                  ],
+                  "imageSrc": "/assets/facebook-og-preview.png"
                 }
-              ],
-              "imageSrc": "/assets/facebook-og-preview.png"
+              ]
             }
           ]
         },
@@ -236,9 +254,9 @@
   ],
   "detailSections": [
     "Product Overview",
-    "Architecture",
-    "Constraints & Trade-offs",
     "Process",
+    "System Design",
+    "Constraints & Trade-offs",
     "Performance & Accessibility",
     "Testing & CI/CD",
     "Security",
