@@ -12,8 +12,10 @@ const FEATURED_PROJECT_IDS = ['e-certificate', 'college-cms']
 function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
   const projectIdsToShow = standalone ? FEATURED_PROJECT_IDS : FEATURED_PROJECT_IDS.slice(0, 4)
   const projects = projectIdsToShow
-    .map((id) => projectsData.projects.find((p) => p.id === id))
-    .filter(Boolean)
+    .flatMap((id) => {
+      const p = projectsData.projects.find((pr) => pr.id === id)
+      return p != null ? [p] : []
+    })
     .map((p) => {
       const projectWithTop = p as { topImage?: string; sections?: Record<string, { image?: string }> }
       const image = projectWithTop.topImage ?? projectWithTop.sections?.['product-overview']?.image
