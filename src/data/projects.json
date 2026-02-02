@@ -119,19 +119,20 @@
                   "heading": "Challenge:",
                   "items": [
                     {
-                      "title": "1-1. Converting PDF to JPEG using Poppler",
-                      "body": "Converting PDF blobs to JPEG in a serverless environment (Vercel) was challenging. Initial attempt using Poppler (node-poppler) failed because Vercel does not support native binaries (.so, .dll), making it unsuitable for a serverless environment."
+                      "title": "1-1. initial attempt: Converting PDF to JPEG using Poppler",
+                      "body": "Converting PDF blobs to JPEG in a serverless environment (Vercel) was challenging. An initial attempt using the **Poppler** library, a C++ library for working with PDFs that Node.js bindings like `node-poppler` and `pdf2json` rely on, failed. This is because Vercel's serverless environment does not support libraries requiring native binaries (such as .so or .dll shared libraries) out of the box, making Poppler unsuitable for this specific setup."
                     },
                     {
-                      "title": "1-2. Generating the Bachelor of International Tourism certificate with CSS",
+                      "title": "1-2. second attempt: Rendering the certificate as styled HTML with Puppeteer",
                       "body": "A second attempt used CSS for the diploma layout and Puppeteer (a Node.js library for headless Chrome) to convert styled HTML to PDF. PDF generation worked but the rendered images appeared blurry and pixelated in the browser, making it unsuitable for production."
                     }
-                  ]
+                  ],
+                  "imageSrc": "/assets/blob-to-jpeg-failed-attempts.png"
                 },
                 {
                   "heading": "Solution:",
                   "body": [
-                    "Conversion was moved to the frontend using PDF-lib and Canvas to generate a Base64 image, which was then uploaded to Cloudinary as a JPEG via the Express API. This removed native dependencies and ensured compatibility with Vercel's serverless runtime."
+                    "Certificate PDF generation was moved to the frontend using pdf-lib (no Canvas). The client builds the certificate as a PDF in the browser, converts it to Base64, and sends it to the Express API. The server uploads this PDF data to Cloudinary with format: 'jpg', so the PDF-to-JPEG conversion is handled by Cloudinary (or the upload pipeline), not by the frontend or by native tools on the server. This removed native dependencies and ensured compatibility with Vercel's serverless runtime."
                   ],
                   "imageSrc": "/assets/blob-to-jpeg-diagram.png"
                 }
