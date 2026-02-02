@@ -7,9 +7,13 @@ interface ProjectsSectionProps {
   standalone?: boolean
 }
 
+const FEATURED_PROJECT_IDS = ['e-certificate', 'college-cms']
+
 function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
-  const projects = projectsData.projects
-    .filter((p) => p.id === 'e-certificate')
+  const projectIdsToShow = standalone ? FEATURED_PROJECT_IDS : FEATURED_PROJECT_IDS.slice(0, 4)
+  const projects = projectIdsToShow
+    .map((id) => projectsData.projects.find((p) => p.id === id))
+    .filter(Boolean)
     .map((p) => {
       const projectWithTop = p as { topImage?: string; sections?: Record<string, { image?: string }> }
       const image = projectWithTop.topImage ?? projectWithTop.sections?.['product-overview']?.image
@@ -47,8 +51,12 @@ function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
                   to={`/project/${project.id}`}
                   className="group flex flex-col sm:flex-row gap-4 sm:gap-6 hover:opacity-80 transition-opacity"
                 >
-                  {/* Project Image or Placeholder */}
-                  <div className="flex-shrink-0 w-full sm:w-48 h-40 sm:h-32 rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-700 aspect-video sm:aspect-auto">
+                  {/* Project Image or Placeholder (larger on /project page) */}
+                  <div
+                    className={`flex-shrink-0 w-full rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-700 aspect-video sm:aspect-auto ${
+                      standalone ? 'sm:w-64 h-52 sm:h-44' : 'sm:w-48 h-40 sm:h-32'
+                    }`}
+                  >
                     {project.image ? (
                       <img
                         src={project.image}

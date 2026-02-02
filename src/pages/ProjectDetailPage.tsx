@@ -176,12 +176,11 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
     <>
     <section className="py-24 md:py-36 lg:py-48 min-h-screen">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-24">
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* Left Section - Image & Links */}
-          <div className="flex-shrink-0 lg:w-2/5">
-            {/* Top Image (Web Platform 横) */}
+        <div className="flex flex-col lg:flex-row gap-12 items-stretch">
+          {/* Left Section - Image (same height as right text on lg) */}
+          <div className="flex-shrink-0 lg:w-2/5 min-h-0">
             {project.topImage ? (
-              <div className="aspect-video rounded-lg mb-6 overflow-hidden">
+              <div className="aspect-video lg:aspect-auto lg:h-full rounded-lg overflow-hidden">
                 <img
                   src={project.topImage}
                   alt=""
@@ -190,41 +189,14 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
               </div>
             ) : (
               <div
-                className="aspect-video rounded-lg mb-6 opacity-90"
+                className="aspect-video lg:aspect-auto lg:h-full min-h-[200px] rounded-lg opacity-90"
                 style={{ backgroundColor: '#DC2626' }}
               />
-            )}
-            {/* Links */}
-            {links.length > 0 && (
-            <div className="flex flex-wrap gap-6">
-              {links.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-2 hover:opacity-70 transition-opacity"
-                  style={{ color: colors.secondary.text }}
-                >
-                  <span className="text-base font-light">{link.label}</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
-              ))}
-            </div>
             )}
           </div>
 
           {/* Right Section - Project Details */}
-          <div className="flex-1">
+          <div className="flex-1 min-w-0 flex flex-col justify-center">
             <p
               className="text-sm font-light mb-2"
               style={{ color: colors.secondary.text }}
@@ -264,25 +236,37 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                   {project.year}
                 </span>
               </div>
-              <div>
-                <span className="font-medium block text-sm mb-1" style={{ color: colors.secondary.text }}>
-                  Role
-                </span>
-                <span className="font-light" style={{ color: colors.background.text }}>
-                  {project.role}
-                </span>
-              </div>
-              <div>
-                <span className="font-medium block text-sm mb-1" style={{ color: colors.secondary.text }}>
-                  Member
-                </span>
-                <span className="font-light" style={{ color: colors.background.text }}>
-                  {project.member}
-                </span>
-              </div>
             </div>
           </div>
         </div>
+
+        {/* Links (below image + text row) */}
+        {links.length > 0 && (
+          <div className="flex flex-wrap gap-6 mt-6">
+            {links.map((link) => (
+              <a
+                key={link.label}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-2 hover:opacity-70 transition-opacity"
+                style={{ color: colors.secondary.text }}
+              >
+                <span className="text-base font-light">{link.label}</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            ))}
+          </div>
+        )}
 
         {/* Back to Projects */}
         <div className="mt-12">
@@ -478,42 +462,44 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                     ))}
                                   </div>
                                 </div>
-                                {/* Numbered list (2, 3, 4 for system-design) */}
-                                <ol className="space-y-6 list-none pl-0">
-                                  {numberedItems.map((item, i) => {
-                                    const num = slug === 'system-design' ? i + 2 : i + 1
-                                    return (
-                                      <li key={i} className="font-light">
-                                        <span className="font-medium" style={{ color: colors.background.text }}>
-                                          {num}. {item.title}
-                                        </span>
-                                        {item.description && (
-                                          <p className="mt-1 leading-relaxed opacity-80" style={{ color: colors.background.text }}>
-                                            {item.description}
-                                          </p>
-                                        )}
-                                        {item.subPoints && item.subPoints.length > 0 && (
-                                          <ul className="mt-2 ml-4 space-y-1 list-disc">
-                                            {item.subPoints.map((point, j) => (
-                                              <li key={j} className="leading-relaxed opacity-80" style={{ color: colors.background.text }}>
-                                                {point}
-                                              </li>
-                                            ))}
-                                          </ul>
-                                        )}
-                                      </li>
-                                    )
-                                  })}
-                                </ol>
-                                {/* Why Vue3?: (below numbered list for system-design) */}
+                                {/* Numbered list (2, 3, 4 for system-design) - same block background as 1. Tech stack */}
+                                <div
+                                  className="p-6 rounded-lg space-y-6"
+                                  style={{
+                                    backgroundColor: colors.block?.bg ?? colors.chip.bg,
+                                    color: colors.chip.text,
+                                  }}
+                                >
+                                  <ol className="space-y-6 list-none pl-0">
+                                    {numberedItems.map((item, i) => {
+                                      const num = slug === 'system-design' ? i + 2 : i + 1
+                                      return (
+                                        <li key={i} className="font-light">
+                                          <span className="font-medium" style={{ color: colors.background.text }}>
+                                            {num}. {item.title}
+                                          </span>
+                                          {item.description && (
+                                            <p className="mt-1 leading-relaxed opacity-80" style={{ color: colors.background.text }}>
+                                              {item.description}
+                                            </p>
+                                          )}
+                                          {item.subPoints && item.subPoints.length > 0 && (
+                                            <ul className="mt-2 ml-4 space-y-1 list-disc">
+                                              {item.subPoints.map((point, j) => (
+                                                <li key={j} className="leading-relaxed opacity-80" style={{ color: colors.background.text }}>
+                                                  {point}
+                                                </li>
+                                              ))}
+                                            </ul>
+                                          )}
+                                        </li>
+                                      )
+                                    })}
+                                  </ol>
+                                </div>
+                                {/* Why Vue3?: (no background) */}
                                 {((section as SectionContent).techStackBody != null && (section as SectionContent).techStackBody!.length > 0) && (
-                                  <div
-                                    className="p-6 rounded-lg space-y-4"
-                                    style={{
-                                      backgroundColor: colors.block?.bg ?? colors.chip.bg,
-                                      color: colors.chip.text,
-                                    }}
-                                  >
+                                  <div className="space-y-4">
                                     {(section as SectionContent).techStackBody!.map((paragraph, i) => (
                                       i === 0 && paragraph === 'Why Vue3?:' ? (
                                         <h3
@@ -534,7 +520,7 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                               </div>
                             )
                           }
-                          if (techStackSections != null && techStackSections.length > 0) {
+                          if (techStackSections != null && techStackSections.length > 0 && slug !== 'system-design') {
                             return (
                               <div className="space-y-4">
                                 <div
@@ -620,7 +606,7 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                     {block.subsections ? (
                                       <div className="space-y-5">
                                         {block.subsections.map((sub, j) => {
-                                          const isChallengeOrSolution = sub.heading === 'Challenge:' || sub.heading === 'Solution:'
+                                          const isChallengeOrSolution = sub.heading?.startsWith('Challenge:') === true || sub.heading?.startsWith('Solution:') === true
                                           return (
                                             <div
                                               key={j}

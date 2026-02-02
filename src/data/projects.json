@@ -4,7 +4,7 @@
       "id": "e-certificate",
       "type": "Web Platform",
       "title": "E-Certificate Issuance Web platform",
-      "technologies": ["Vue", "TypeScript", "NodeJS", "MySQL", "Cloudinary", "Hostinger", "Vercel"],
+      "technologies": ["Vue", "TypeScript", "NodeJS", "MySQL", "Cloudinary", "Hostinger", "Vercel", "Tailwind CSS"],
       "year": "March, 2025",
       "role": "Full stack Developer",
       "member": "2 Developers",
@@ -107,7 +107,7 @@
           "image": "/assets/certificate-flowchart.png",
           "imageTitle": "End-to-End User Workflow",
           "imageBelowFirst": "/assets/architecture-diagram.png",
-          "imageBelowFirstTitle": "Full-Stack Implementation Overview"
+          "imageBelowFirstTitle": "Full-Stack Implementation Overview user journey map"
         },
         "constraints--trade-offs": {
           "body": [],
@@ -211,6 +211,154 @@
             "Integrated WordPress data with a custom certificate platform.",
             "Learned how library behavior varies depending on the cloud platform environment.",
             "Strengthened practical understanding of frontend–backend–cloud interoperability."
+          ]
+        }
+      }
+    },
+    {
+      "id": "college-cms",
+      "type": "Web Platform",
+      "title": "Web Platform & Custom Headless CMS",
+      "technologies": ["React", "Next.js 15", "TypeScript", "Convex", "Tailwind CSS", "shadcn/ui", "Clerk", "Stripe", "Cloudinary", "Coolify"],
+      "year": "June, 2025",
+      "role": "Full stack Developer",
+      "member": "2 Developers",
+      "demoUrl": "#",
+      "sourceUrl": "#",
+      "designUrl": "#",
+      "hideLinks": true,
+      "topImage": "/assets/college-cms-hero.png",
+      "hiddenSections": ["Security", "Impact & Reflection"],
+      "sections": {
+        "process": {
+          "body": [],
+          "image": "/assets/college-cms-architecture.png",
+          "imageTitle": "User Experience:",
+          "imageBelowFirst": "/assets/college-cms-fullstack-overview.png",
+          "imageBelowFirstTitle": "Development Workflow & CI/CD Pipeline"
+        },
+        "product-overview": {
+          "image": "/assets/college-cms-hero.png",
+          "body": [
+            "Developed a unified web platform and an internal Headless CMS with real-time content synchronization.",
+            "To address the limitations of the legacy system, I re-architected the entire platform using Next.js 15 and Convex (BaaS). I engineered a dynamic architecture utilizing Convex Cloud for real-time data synchronization, ensuring that content updates made in the admin dashboard are instantly reflected on the client-side without manual deployments."
+          ]
+        },
+        "system-design": {
+          "image": "/assets/college-cms-system-design.png",
+          "heading": "Architecture & Data Flow Strategy",
+          "body": [
+            "Why Turborepo?",
+            "To maintain high velocity in a monorepo environment, I integrated Turborepo as the underlying build system.",
+            "Intelligent Caching (\"Never do the same work twice\"): Turborepo analyzes the dependency graph and caches the result of tasks (build, test, lint). If code hasn't changed, it skips execution and instantly restores the output from the cache, reducing local build times from minutes to milliseconds.",
+            "Remote Caching: By sharing the cache artifacts across the team and CI/CD pipelines, the entire development lifecycle is accelerated. Once a commit is built in CI or by a team member, subsequent builds can retrieve the artifacts from the cloud, eliminating redundant processing.",
+            "The platform is architected as a modern, custom Headless CMS within a Turborepo monorepo, leveraging Convex BaaS as the central nervous system for data and logic. This design ensures type safety, scalability, and a seamless developer experience across both applications.",
+            "Admin App (CMS Content Entry): The administrative dashboard is secured by a Clerk Authentication Layer. Staff members interact with a user-friendly interface (built with shadcn/ui and TipTap) to manage content. Data updates are sent as secure, authenticated Mutations directly to Convex.",
+            "Convex BaaS (The Single Source of Truth): Acting as the backend hub, Convex hosts the database, executes API functions, and manages integrations with external services like Cloudinary (media) and Stripe (payments). Its built-in Real-time Engine instantly pushes updates to subscribed clients.",
+            "Web App (Public Content Delivery): The public-facing site employs a hybrid data-fetching strategy for optimal performance and SEO. It primarily uses Server-Side Fetching (with ISR) to render content fast and search-engine-friendly. For dynamic content requiring immediate updates, it utilizes real-time Subscriptions to reflect changes instantly from the Admin panel.",
+            "Shared Infrastructure: Shared Packages for UI components, TypeScript types, and configurations are utilized by both apps to maintain consistency and accelerate development."
+          ]
+        },
+        "constraints--trade-offs": {
+          "body": [
+            "Constraints: Since the primary CMS users are non-technical staff, a \"foolproof UI\" was essential. I designed strict form validations and preview features to prevent accidental errors, shielding users from SQL or raw code.",
+            "Trade-offs: Regarding real-time data, I prioritized SEO and initial load speed (Core Web Vitals) for the public site by relying primarily on Server-Side Fetching (RSC) rather than full real-time synchronization, which is reserved for the Admin dashboard."
+          ],
+          "processBlocks": [
+            {
+              "title": "1. Migration from Legacy WordPress",
+              "subsections": [
+                {
+                  "heading": "Challenge:",
+                  "body": [
+                    "The previous WordPress system relied heavily on plugins and required risky PHP modifications for design updates. This created a fragility in the system where updates could break functionality, and performance/SEO was limited by the monolithic structure."
+                  ]
+                },
+                {
+                  "heading": "Solution:",
+                  "body": [
+                    "I migrated the platform to Next.js, decoupling the frontend from the backend logic. This shift to a Headless architecture eliminated direct code editing risks for content, significantly boosted SEO via SSR, and allowed for scalable feature development without legacy constraints."
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "2. UX vs Data Integrity",
+              "subsections": [
+                {
+                  "heading": "Challenge:",
+                  "body": [
+                    "The administrative staff needed to manage complex data (programs, certificates) without technical knowledge. Giving them raw database access or a complex UI risked data corruption and operational errors."
+                  ]
+                },
+                {
+                  "heading": "Solution:",
+                  "body": [
+                    "Built a custom Admin dashboard using shadcn/ui and TipTap that mirrors the mental model of the staff. Implemented strict form validation (Zod) and real-time previews, ensuring that \"what you see is what you get\" and preventing invalid data from ever reaching the production database."
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "3. Real-time vs Performance",
+              "subsections": [
+                {
+                  "heading": "Challenge:",
+                  "body": [
+                    "The Admin dashboard required real-time synchronization for collaboration, whereas the Public site needed static-like speed and high SEO scores. Using client-side fetching everywhere would hurt SEO, while static generation would delay content updates."
+                  ]
+                },
+                {
+                  "heading": "Solution:",
+                  "body": [
+                    "I leveraged Convex's real-time subscriptions for the Admin panel to ensure instant feedback. For the Public site, I utilized Next.js Server Actions and ISR, achieving excellent Core Web Vitals (LCP < 1.0s) while ensuring content updates are reflected within 60 seconds."
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "4. Consistency in Development",
+              "subsections": [
+                {
+                  "heading": "Challenge:",
+                  "body": [
+                    "Developing separate Web and Admin applications often leads to duplicated types and inconsistent UI components, increasing maintenance overhead and the risk of bugs during API communication."
+                  ]
+                },
+                {
+                  "heading": "Solution:",
+                  "body": [
+                    "Adopting Turborepo allowed me to share UI libraries and strict TypeScript schemas across apps. Combined with Convex, this provided end-to-end type safety—changing a database schema instantly updates types in both the Web and Admin frontends, eliminating integration bugs."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "performance--accessibility": {
+          "body": [
+            "Performance: Optimized media delivery using Cloudinary and Next.js next/image. Minimized client bundle size by aggressively utilizing React Server Components.",
+            "Accessibility: Built both the Admin and Public interfaces on shadcn/ui (Radix UI), ensuring full support for keyboard navigation and screen readers (ARIA attributes)."
+          ]
+        },
+        "testing--ci/cd": {
+          "body": [
+            "Testing: Integrated Vitest to perform unit tests on core utility functions and redirect logic, ensuring system reliability.",
+            "CI/CD: Established a pipeline using GitHub Actions to automate linting and testing on Pull Requests. Merges to the main branch trigger automatic deployment to Coolify."
+          ]
+        },
+        "next-steps": {
+          "body": [
+            "Expand E2E Testing: Introduce Playwright to automate testing for critical paths, from Admin content creation to Public site rendering.",
+            "Localization Workflow: Integrate AI translation APIs into the pipeline to auto-generate initial draft translations for the 5 supported languages.",
+            "Analytics: Develop a feature to aggregate user behavior logs in Convex and visualize engagement metrics within the Admin dashboard."
+          ]
+        },
+        "key-learnings": {
+          "body": [
+            "Power of End-to-End Type Safety: I experienced how the combination of Convex and TypeScript ensures automatic type propagation from the DB schema to the frontend, resulting in highly resilient code and significantly fewer bugs.",
+            "Monorepo Operations: Sharing business logic and UI between the Web and Admin apps prevented inconsistency and accelerated the development velocity.",
+            "CMS Design Philosophy: I learned that beyond technical features, crafting a \"user-friendly UI/UX\" for operators is the most critical factor in determining the long-term value and usability of the system."
           ]
         }
       }

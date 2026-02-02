@@ -78,8 +78,8 @@ function AboutPage({ colors }: AboutPageProps) {
           </div>
         </div>
       </div>
+      <EducationSection colors={colors} embed />
     </section>
-    <EducationSection colors={colors} />
     <PassionSection colors={colors} />
   </>
   )

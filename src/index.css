@@ -7,3 +7,19 @@
 * {
   font-family: 'Iosevka', monospace;
 }
+
+/* Hero section: subtle background animation */
+@keyframes hero-bg-shift {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.02) translate(1%, 1%);
+  }
+}
+
+.hero-bg-animate {
+  animation: hero-bg-shift 20s ease-in-out infinite;
+}

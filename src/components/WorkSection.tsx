@@ -50,7 +50,7 @@ function WorkSection({ colors }: WorkSectionProps) {
     {
       title: 'Front end Developer',
       company: 'Rims',
-      period: 'Mar 2023 - Jul 2023',
+      period: 'Aug 2023 - Dec 2023',
       location: 'Tokyo, Japan',
       icon: '/assets/rims-icon.png',
       url: 'https://www.rims.agency/',
@@ -82,35 +82,33 @@ function WorkSection({ colors }: WorkSectionProps) {
             </p>
 
             {/* Work Experiences */}
-            <div className="space-y-8">
+            <div className="space-y-2">
               {workExperiences.map((work, index) => (
-                <div 
+                <a
                   key={index}
-                  className="flex items-start gap-6"
+                  href={work.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-start gap-6 rounded-lg p-4 -mx-4 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800/80"
                 >
                   {/* Icon */}
                   {work.icon ? (
-                    <a
-                      href={work.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden transition-opacity hover:opacity-100 opacity-50"
-                    >
+                    <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden opacity-50 transition-opacity group-hover:opacity-100 pointer-events-none">
                       <img 
                         src={work.icon} 
                         alt={`${work.company} logo`}
                         className="w-full h-full object-cover"
                       />
-                    </a>
+                    </div>
                   ) : (
                     <div 
-                      className="flex-shrink-0 w-16 h-16 rounded-lg"
+                      className="flex-shrink-0 w-16 h-16 rounded-lg pointer-events-none"
                       style={{ backgroundColor: colors.chip.bg }}
                     />
                   )}
 
                   {/* Work Info */}
-                  <div className="flex-1 flex items-start justify-between gap-4">
+                  <div className="flex-1 flex items-start justify-between gap-4 min-w-0">
                     <div>
                       <h3 
                         className="text-xl font-light mb-1"
@@ -125,7 +123,7 @@ function WorkSection({ colors }: WorkSectionProps) {
                         {work.company}
                       </p>
                     </div>
-                    <div className="text-right">
+                    <div className="text-right flex-shrink-0">
                       <p 
                         className="text-base font-light whitespace-nowrap"
                         style={{ color: colors.secondary.text }}
@@ -142,7 +140,7 @@ function WorkSection({ colors }: WorkSectionProps) {
                       )}
                     </div>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
