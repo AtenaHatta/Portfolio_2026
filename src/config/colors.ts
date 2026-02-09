@@ -28,6 +28,9 @@ export const colors = {
     challengeSolutionLabel: {
       bg: '#E5E7EB', // gray for Challenge/Solution in light mode
     },
+    highlight: {
+      bg: 'rgba(251, 191, 36, 0.35)', // amber highlight in light mode
+    },
   },
   dark: {
     background: {
@@ -56,6 +59,9 @@ export const colors = {
     },
     challengeSolutionLabel: {
       bg: '#0a0a0a', // black for Challenge/Solution in dark mode
+    },
+    highlight: {
+      bg: 'rgba(251, 191, 36, 0.25)', // amber highlight in dark mode
     },
   },
 } as const

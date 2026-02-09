@@ -284,7 +284,24 @@
               ]
             },
             {
-              "title": "2. UX vs Data Integrity",
+              "title": "2. Performance vs SEO Complexity",
+              "subsections": [
+                {
+                  "heading": "Challenge:",
+                  "body": [
+                    "For a content-rich homepage, standard SSR (Server-Side Rendering) ensures SEO but often leads to a heavy \"Main Thread\" during hydration, delaying the Largest Contentful Paint (LCP). Conversely, standard Client-Side Rendering (CSR) hurts search rankings."
+                  ]
+                },
+                {
+                  "heading": "Solution:",
+                  "body": [
+                    "I implemented a \"Hybrid Hydration Strategy\" using next/dynamic. By strategically splitting the application into independent chunks, I kept the initial JavaScript bundle minimal while maintaining ssr: true for all SEO-critical sections. This ensured that search engines received fully rendered HTML, while the browser could prioritize rendering the visual \"Hero\" area without waiting for the entire page's logic. This architectural choice was a key factor in achieving a {{75% improvement in LCP}}."
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "3. UX vs Data Integrity",
               "subsections": [
                 {
                   "heading": "Challenge:",
@@ -301,7 +318,7 @@
               ]
             },
             {
-              "title": "3. Real-time vs Performance",
+              "title": "4. Real-time vs Performance",
               "subsections": [
                 {
                   "heading": "Challenge:",
@@ -318,7 +335,7 @@
               ]
             },
             {
-              "title": "4. Consistency in Development",
+              "title": "5. Consistency in Development",
               "subsections": [
                 {
                   "heading": "Challenge:",

@@ -104,6 +104,33 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
     }))
   }
 
+  const renderParagraphWithHighlights = (text: string) => {
+    const highlightBg = (colors as { highlight?: { bg: string } }).highlight?.bg
+    const parts: React.ReactNode[] = []
+    const regex = /\{\{(.+?)\}\}/g
+    let lastIndex = 0
+    let match
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(text.slice(lastIndex, match.index))
+      }
+      parts.push(
+        <span
+          key={`hl-${match.index}`}
+          className="rounded px-1 py-0.5"
+          style={highlightBg ? { backgroundColor: highlightBg } : undefined}
+        >
+          {match[1]}
+        </span>
+      )
+      lastIndex = regex.lastIndex
+    }
+    if (lastIndex < text.length) {
+      parts.push(text.slice(lastIndex))
+    }
+    return parts.length > 0 ? <>{parts}</> : text
+  }
+
   const getImageStyle = (src: string) => {
     const size = imageNaturalSize[src]
     if (!size || size.w === 0 || size.h === 0) return {}
@@ -641,7 +668,7 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                               ) : (
                                                 sub.body?.map((paragraph, k) => (
                                                   <p key={k} className="font-light leading-relaxed opacity-80" style={{ color: colors.background.text }}>
-                                                    {paragraph}
+                                                    {renderParagraphWithHighlights(paragraph)}
                                                   </p>
                                                 ))
                                               )}
