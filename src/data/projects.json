@@ -125,16 +125,22 @@
                     {
                       "title": "1-2. second attempt: Rendering the certificate as styled HTML with Puppeteer",
                       "body": "A second attempt used CSS for the diploma layout and Puppeteer (a Node.js library for headless Chrome) to convert styled HTML to PDF. PDF generation worked but the rendered images appeared blurry and pixelated in the browser, making it unsuitable for production."
+                    },
+                    {
+                      "title": "1-3. third attempt: Client-side PDF generation (pdf-lib + Cloudinary)",
+                      "body": "The client could build the certificate as a PDF with pdf-lib, send Base64 to the Express API, and the server could upload to Cloudinary with format: 'jpg' (conversion handled there), avoiding native dependencies and Vercel limits. However, issuing certificates on the client is not acceptable from a security perspective, as the process could be tampered with."
                     }
                   ],
-                  "imageSrc": "/assets/blob-to-jpeg-failed-attempts.png"
+                  "imageSrc": "/assets/blob-to-jpeg-all-attempts-failed.png"
                 },
                 {
                   "heading": "Solution:",
                   "body": [
-                    "Certificate PDF generation was moved to the frontend using pdf-lib (no Canvas). The client builds the certificate as a PDF in the browser, converts it to Base64, and sends it to the Express API. The server uploads this PDF data to Cloudinary with format: 'jpg', so the PDF-to-JPEG conversion is handled by Cloudinary (or the upload pipeline), not by the frontend or by native tools on the server. This removed native dependencies and ensured compatibility with Vercel's serverless runtime."
+                    "To overcome the limitations of the serverless runtime, I re-architected the generation and conversion pipeline to remove all native dependencies.",
+                    "First, I replaced the native-dependent tools with pdf-lib, a pure JavaScript library, allowing me to generate PDFs directly within the Node.js environment without requiring OS-level binaries.",
+                    "Second, for the PDF-to-JPEG conversion, I offloaded the heavy processing to the cloud. Instead of converting the file on the Vercel server, I implemented a stream upload to Cloudinary with a format: 'jpg' transformation parameter. This allowed the application to leverage Cloudinary's infrastructure for the image conversion, ensuring 100% compatibility with Vercel while keeping the serverless function lightweight and fast."
                   ],
-                  "imageSrc": "/assets/blob-to-jpeg-diagram.png"
+                  "imageSrc": "/assets/blob-to-jpeg-solution.png"
                 }
               ]
             },
