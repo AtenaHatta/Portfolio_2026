@@ -384,6 +384,10 @@
             "Monorepo Operations: Sharing business logic and UI between the Web and Admin apps prevented inconsistency and accelerated the development velocity.",
             "CMS Design Philosophy: I learned that beyond technical features, crafting a \"user-friendly UI/UX\" for operators is the most critical factor in determining the long-term value and usability of the system."
           ]
+        },
+        "project-articles": {
+          "body": [],
+          "relatedPostsFromDevTo": true
         }
       }
     },
@@ -433,7 +437,8 @@
     "Testing & CI/CD",
     "Security",
     "Impact & Reflection",
+    "Key Learnings",
     "Next Steps",
-    "Key Learnings"
+    "Project Articles"
   ]
 }

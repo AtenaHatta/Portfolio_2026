@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
 import ProjectsPage from './pages/ProjectsPage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
+import ArticlePage from './pages/ArticlePage'
 
 function App() {
   const { isDarkMode, toggleTheme, colors } = useTheme()
@@ -25,6 +26,7 @@ function App() {
             <Route path="/about" element={<AboutPage colors={colors} />} />
             <Route path="/project" element={<ProjectsPage colors={colors} />} />
             <Route path="/project/:id" element={<ProjectDetailPage colors={colors} />} />
+            <Route path="/articles" element={<ArticlePage colors={colors} />} />
           </Routes>
         </main>
       </div>

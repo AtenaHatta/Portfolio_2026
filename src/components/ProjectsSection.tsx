@@ -46,7 +46,7 @@ function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
           {/* Right Side - Content */}
           <div className="flex-1">
             {/* Projects List */}
-            <div className="space-y-8 mb-8" id="projects">
+            <div className="space-y-12 mb-8" id="projects">
               {projects.map((project) => (
                 <Link
                   key={project.id}

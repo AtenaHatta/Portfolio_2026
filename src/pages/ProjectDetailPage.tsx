@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useRef, useState, useEffect } from 'react'
 import { getColors } from '../config/colors'
 import projectsData from '../data/projects.json'
+import ArticleList from '../components/ArticleList'
 
 interface ProjectDetailPageProps {
   colors: ReturnType<typeof getColors>
@@ -59,6 +60,9 @@ interface SectionContent {
   imageAfterIndex?: number
   imageAfterIndexSrc?: string
   keyFeatures?: KeyFeature[]
+  relatedPosts?: { title: string; url: string; date?: string }[]
+  /** When true, show latest 2 posts from dev.to (same as articles page) instead of static relatedPosts */
+  relatedPostsFromDevTo?: boolean
 }
 
 interface ProjectDetail {
@@ -721,6 +725,60 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                 ))}
                               </div>
                             )
+                          }
+                          const relatedPosts = (section as SectionContent).relatedPosts
+                          const relatedPostsFromDevTo = (section as SectionContent).relatedPostsFromDevTo
+                          if (slug === 'project-articles') {
+                            const introText = 'I have summarized the technical challenges and solutions from this project in these articles. Hoping this saves someone else some debugging time.'
+                            if (relatedPostsFromDevTo) {
+                              return (
+                                <>
+                                  <p className="mb-8 font-light leading-relaxed opacity-90" style={{ color: colors.background.text }}>
+                                    {introText}
+                                  </p>
+                                  <ArticleList colors={colors} maxItems={2} />
+                                </>
+                              )
+                            }
+                            if (relatedPosts != null && relatedPosts.length > 0) {
+                              return (
+                                <>
+                                  <p className="mb-8 font-light leading-relaxed opacity-90" style={{ color: colors.background.text }}>
+                                    {introText}
+                                  </p>
+                                <div className="space-y-12">
+                                  {relatedPosts.map((post, i) => (
+                                    <a
+                                      key={i}
+                                      href={post.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="group flex flex-col sm:flex-row gap-4 sm:gap-6 hover:opacity-80 transition-opacity"
+                                    >
+                                      <div className="flex-shrink-0 w-full rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-700 aspect-video sm:aspect-auto sm:w-48 h-40 sm:h-32">
+                                        <div className="w-full h-full flex items-center justify-center opacity-50" style={{ color: colors.secondary.text }}>
+                                          <span className="text-4xl">📝</span>
+                                        </div>
+                                      </div>
+                                      <div className="flex-1">
+                                        {post.date != null && post.date !== '' && (
+                                          <p className="text-sm font-light mb-2" style={{ color: colors.secondary.text }}>
+                                            {post.date}
+                                          </p>
+                                        )}
+                                        <h3 className="text-xl font-light flex-1" style={{ color: colors.background.text }}>
+                                          {post.title}
+                                        </h3>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mt-2 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} style={{ color: colors.background.text }}>
+                                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                                        </svg>
+                                      </div>
+                                    </a>
+                                  ))}
+                                </div>
+                                </>
+                              )
+                            }
                           }
                           if (numberedItems != null && numberedItems.length > 0) {
                             return (

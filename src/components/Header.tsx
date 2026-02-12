@@ -55,6 +55,13 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
           >
             Project
           </Link>
+          <Link 
+            to="/articles" 
+            className="hover:opacity-70 transition-opacity"
+            style={{ color: colors.background.text }}
+          >
+            Articles
+          </Link>
         </div>
 
         {/* Right Side Icons + Mobile Menu Button */}
@@ -147,6 +154,14 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
               onClick={() => setMobileMenuOpen(false)}
             >
               Project
+            </Link>
+            <Link 
+              to="/articles" 
+              className="text-lg font-light hover:opacity-70 transition-opacity py-2"
+              style={{ color: colors.background.text }}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Articles
             </Link>
           </div>
         </div>

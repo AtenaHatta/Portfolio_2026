@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { getColors } from '../config/colors'
 
 interface HeroSectionProps {
@@ -14,6 +15,15 @@ const LINKEDIN_ICON = (
     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
   </svg>
 )
+const ARTICLE_ICON = (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+    <line x1="16" y1="13" x2="8" y2="13" />
+    <line x1="16" y1="17" x2="8" y2="17" />
+    <polyline points="10 9 9 9 8 9" />
+  </svg>
+)
 const MAIL_ICON = (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
@@ -24,13 +34,15 @@ const MAIL_ICON = (
 const LINK_ICONS: Record<string, JSX.Element> = {
   GitHub: GITHUB_ICON,
   LinkedIn: LINKEDIN_ICON,
+  Articles: ARTICLE_ICON,
   Mail: MAIL_ICON,
 }
 
 function HeroSection({ colors }: HeroSectionProps) {
-  const links = [
+  const links: { name: string; url: string; internal?: boolean }[] = [
     { name: 'GitHub', url: 'https://github.com/AtenaHatta' },
     { name: 'LinkedIn', url: 'https://www.linkedin.com/in/atenahatta/' },
+    { name: 'Articles', url: '/articles', internal: true },
     { name: 'Mail', url: 'mailto:hattaatena@gmail.com' },
   ]
 
@@ -76,20 +88,14 @@ function HeroSection({ colors }: HeroSectionProps) {
 
         {/* Action Buttons */}
         <div className="flex flex-wrap gap-4">
-          {links.map((link) => (
-            <a
-              key={link.name}
-              href={link.url}
-              target={link.url.startsWith('http') || link.url.startsWith('mailto') ? '_blank' : undefined}
-              rel={link.url.startsWith('http') ? 'noopener noreferrer' : undefined}
-              className="group flex items-center gap-2 px-6 py-3 rounded-lg transition-all hover:opacity-80"
-              style={{
-                backgroundColor: colors.button.bg,
-                color: colors.button.text,
-              }}
-            >
-              {LINK_ICONS[link.name]}
-              <span className="font-medium">{link.name}</span>
+          {links.map((link) => {
+            const buttonClass = 'group flex items-center gap-2 px-6 py-3 rounded-lg transition-all hover:opacity-80'
+            const buttonStyle = {
+              backgroundColor: colors.button.bg,
+              color: colors.button.text,
+            }
+            const icon = LINK_ICONS[link.name]
+            const arrow = (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
@@ -104,8 +110,36 @@ function HeroSection({ colors }: HeroSectionProps) {
                   d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
                 />
               </svg>
-            </a>
-          ))}
+            )
+            if (link.internal) {
+              return (
+                <Link
+                  key={link.name}
+                  to={link.url}
+                  className={buttonClass}
+                  style={buttonStyle}
+                >
+                  {icon}
+                  <span className="font-medium">{link.name}</span>
+                  {arrow}
+                </Link>
+              )
+            }
+            return (
+              <a
+                key={link.name}
+                href={link.url}
+                target={link.url.startsWith('http') || link.url.startsWith('mailto') ? '_blank' : undefined}
+                rel={link.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                className={buttonClass}
+                style={buttonStyle}
+              >
+                {icon}
+                <span className="font-medium">{link.name}</span>
+                {arrow}
+              </a>
+            )
+          })}
         </div>
       </div>
     </section>

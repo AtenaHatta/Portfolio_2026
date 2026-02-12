@@ -60,7 +60,7 @@ function WorkSection({ colors }: WorkSectionProps) {
   return (
     <section className="py-20">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-24">
-        <div className="flex flex-col md:flex-row gap-12">
+        <div className="flex flex-col md:flex-row md:items-start gap-12">
           {/* Left Side - Title */}
           <div className="flex-shrink-0 md:w-48">
             <h2 
@@ -73,14 +73,6 @@ function WorkSection({ colors }: WorkSectionProps) {
 
           {/* Right Side - Content */}
           <div className="flex-1">
-            {/* Introduction Text */}
-            <p 
-              className="mb-12 text-lg font-light leading-relaxed"
-              style={{ color: colors.secondary.text }}
-            >
-              I stay up-to-date with the latest technologies to create user-centric applications with great performance and usability.
-            </p>
-
             {/* Work Experiences */}
             <div className="space-y-2">
               {workExperiences.map((work, index) => (
