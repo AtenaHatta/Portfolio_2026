@@ -33,7 +33,7 @@ export default function ArticleList({ colors, maxItems, standalone, tagFilter }:
         )
         if (tagFilter) {
           const tagLower = tagFilter.toLowerCase()
-          list = list.filter((a) => a.tag_list.some((t) => t.toLowerCase() === tagLower))
+          list = list.filter((a) => a.tag_list.some((t: string) => t.toLowerCase() === tagLower))
         }
         setArticles(list)
       } catch (err) {

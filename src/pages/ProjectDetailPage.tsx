@@ -93,17 +93,53 @@ const getSlug = (item: string) =>
 function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
   const { id } = useParams<{ id: string }>()
   const project = PROJECTS.find((p) => p.id === id) ?? PROJECTS[0]
+  const [relatedArticlesCount, setRelatedArticlesCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    const section = project.sections?.['related-articles']
+    if (!section?.relatedPostsFromDevTo) {
+      setRelatedArticlesCount(null)
+      return
+    }
+    let cancelled = false
+    const username = 'atena'
+    fetch(`https://dev.to/api/articles?username=${username}`)
+      .then((res) => (res.ok ? res.json() : Promise.reject(new Error('Failed to fetch'))))
+      .then((data: { tag_list: string[] }[]) => {
+        if (cancelled) return
+        const tagLower = (section.devToTag ?? '').toLowerCase()
+        const filtered = tagLower
+          ? data.filter((a) => a.tag_list.some((t) => t.toLowerCase() === tagLower))
+          : data
+        setRelatedArticlesCount(filtered.length)
+      })
+      .catch(() => {
+        if (!cancelled) setRelatedArticlesCount(0)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [project.sections])
+
   const hasRelatedArticles = (() => {
     const section = project.sections?.['related-articles']
     if (!section) return false
-    if (section.relatedPostsFromDevTo === true) return true
-    return !!(section.relatedPosts && section.relatedPosts.length > 0)
+    if (section.relatedPosts && section.relatedPosts.length > 0) return true
+    if (section.relatedPostsFromDevTo) return relatedArticlesCount !== null && relatedArticlesCount > 0
+    return false
   })()
+
   const menuItems = (project.hiddenSections
     ? MENU_ITEMS.filter((item) => !project.hiddenSections!.includes(item))
     : MENU_ITEMS
   ).filter((item) => getSlug(item) !== 'related-articles' || hasRelatedArticles)
   const [activeSection, setActiveSection] = useState(menuItems[0])
+
+  useEffect(() => {
+    if (menuItems.length > 0 && !menuItems.includes(activeSection)) {
+      setActiveSection(menuItems[0])
+    }
+  }, [menuItems, activeSection])
   const [modalImage, setModalImage] = useState<string | null>(null)
   const [imageNaturalSize, setImageNaturalSize] = useState<Record<string, { w: number; h: number }>>({})
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
