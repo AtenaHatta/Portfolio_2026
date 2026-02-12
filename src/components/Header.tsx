@@ -60,7 +60,7 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
             className="hover:opacity-70 transition-opacity"
             style={{ color: colors.background.text }}
           >
-            Articles
+            Article
           </Link>
         </div>
 
@@ -161,7 +161,7 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
               style={{ color: colors.background.text }}
               onClick={() => setMobileMenuOpen(false)}
             >
-              Articles
+              Article
             </Link>
           </div>
         </div>

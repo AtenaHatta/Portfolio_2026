@@ -8,9 +8,11 @@ interface ArticleListProps {
   maxItems?: number
   /** When true, use larger image size (same as Projects page); when false, same as Home projects */
   standalone?: boolean
+  /** When set, only show articles that have this tag in tag_list (e.g. "collegecms" for project Related Articles) */
+  tagFilter?: string
 }
 
-export default function ArticleList({ colors, maxItems, standalone }: ArticleListProps) {
+export default function ArticleList({ colors, maxItems, standalone, tagFilter }: ArticleListProps) {
   const [articles, setArticles] = useState<DevToArticle[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -26,10 +28,14 @@ export default function ArticleList({ colors, maxItems, standalone }: ArticleLis
         }
 
         const data = await res.json()
-        const sorted = [...data].sort(
+        let list = [...data].sort(
           (a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime()
         )
-        setArticles(sorted)
+        if (tagFilter) {
+          const tagLower = tagFilter.toLowerCase()
+          list = list.filter((a) => a.tag_list.some((t) => t.toLowerCase() === tagLower))
+        }
+        setArticles(list)
       } catch (err) {
         console.error(err)
         setError('記事の読み込みに失敗しました。')
@@ -39,7 +45,7 @@ export default function ArticleList({ colors, maxItems, standalone }: ArticleLis
     }
 
     fetchArticles()
-  }, [])
+  }, [tagFilter])
 
   const secondaryColor = colors?.secondary.text ?? '#6B7280'
   const chipBg = colors?.chip.bg ?? '#E5E7EB'
@@ -127,15 +133,18 @@ export default function ArticleList({ colors, maxItems, standalone }: ArticleLis
               </span>
             </div>
             <div className="flex flex-wrap gap-2">
-              {article.tag_list.slice(0, 5).map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 rounded-[2px] text-sm font-light"
-                  style={{ backgroundColor: chipBg, color: chipText }}
-                >
-                  #{tag}
-                </span>
-              ))}
+              {article.tag_list
+                .filter((t) => !t.toLowerCase().startsWith('project'))
+                .slice(0, 5)
+                .map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 rounded-[2px] text-sm font-light"
+                    style={{ backgroundColor: chipBg, color: chipText }}
+                  >
+                    #{tag}
+                  </span>
+                ))}
             </div>
           </div>
         </a>

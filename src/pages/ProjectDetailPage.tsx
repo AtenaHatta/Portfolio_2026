@@ -63,6 +63,8 @@ interface SectionContent {
   relatedPosts?: { title: string; url: string; date?: string }[]
   /** When true, show latest 2 posts from dev.to (same as articles page) instead of static relatedPosts */
   relatedPostsFromDevTo?: boolean
+  /** When set, only show dev.to articles that have this tag (e.g. "collegecms") */
+  devToTag?: string
 }
 
 interface ProjectDetail {
@@ -85,12 +87,22 @@ interface ProjectDetail {
 const PROJECTS: ProjectDetail[] = projectsData.projects as ProjectDetail[]
 const MENU_ITEMS: string[] = projectsData.detailSections
 
+const getSlug = (item: string) =>
+  item.toLowerCase().replace(/\s+/g, '-').replace(/&/g, '')
+
 function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
   const { id } = useParams<{ id: string }>()
   const project = PROJECTS.find((p) => p.id === id) ?? PROJECTS[0]
-  const menuItems = project.hiddenSections
+  const hasRelatedArticles = (() => {
+    const section = project.sections?.['related-articles']
+    if (!section) return false
+    if (section.relatedPostsFromDevTo === true) return true
+    return !!(section.relatedPosts && section.relatedPosts.length > 0)
+  })()
+  const menuItems = (project.hiddenSections
     ? MENU_ITEMS.filter((item) => !project.hiddenSections!.includes(item))
     : MENU_ITEMS
+  ).filter((item) => getSlug(item) !== 'related-articles' || hasRelatedArticles)
   const [activeSection, setActiveSection] = useState(menuItems[0])
   const [modalImage, setModalImage] = useState<string | null>(null)
   const [imageNaturalSize, setImageNaturalSize] = useState<Record<string, { w: number; h: number }>>({})
@@ -145,9 +157,6 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
       height: 'auto',
     }
   }
-
-  const getSlug = (item: string) =>
-    item.toLowerCase().replace(/\s+/g, '-').replace(/&/g, '')
 
   const scrollToSection = (item: string) => {
     setActiveSection(item)
@@ -302,7 +311,7 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
         {/* Back to Projects */}
         <div className="mt-12">
           <Link
-            to="/#projects"
+            to="/project"
             className="inline-flex items-center gap-2 hover:opacity-70 transition-opacity"
             style={{ color: colors.background.text }}
           >
@@ -728,7 +737,8 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                           }
                           const relatedPosts = (section as SectionContent).relatedPosts
                           const relatedPostsFromDevTo = (section as SectionContent).relatedPostsFromDevTo
-                          if (slug === 'project-articles') {
+                          const devToTag = (section as SectionContent).devToTag
+                          if (slug === 'related-articles') {
                             const introText = 'I have summarized the technical challenges and solutions from this project in these articles. Hoping this saves someone else some debugging time.'
                             if (relatedPostsFromDevTo) {
                               return (
@@ -736,7 +746,7 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                   <p className="mb-8 font-light leading-relaxed opacity-90" style={{ color: colors.background.text }}>
                                     {introText}
                                   </p>
-                                  <ArticleList colors={colors} maxItems={2} />
+                                  <ArticleList colors={colors} maxItems={2} tagFilter={devToTag} />
                                 </>
                               )
                             }

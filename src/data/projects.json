@@ -219,6 +219,11 @@
             "Learned how library behavior varies depending on the cloud platform environment.",
             "Strengthened practical understanding of frontend–backend–cloud interoperability."
           ]
+        },
+        "related-articles": {
+          "body": [],
+          "relatedPostsFromDevTo": true,
+          "devToTag": "projectecertificate"
         }
       }
     },
@@ -385,9 +390,10 @@
             "CMS Design Philosophy: I learned that beyond technical features, crafting a \"user-friendly UI/UX\" for operators is the most critical factor in determining the long-term value and usability of the system."
           ]
         },
-        "project-articles": {
+        "related-articles": {
           "body": [],
-          "relatedPostsFromDevTo": true
+          "relatedPostsFromDevTo": true,
+          "devToTag": "projectcollegecms"
         }
       }
     },
@@ -439,6 +445,6 @@
     "Impact & Reflection",
     "Key Learnings",
     "Next Steps",
-    "Project Articles"
+    "Related Articles"
   ]
 }
