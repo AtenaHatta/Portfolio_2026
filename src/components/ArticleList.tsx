@@ -56,9 +56,9 @@ export default function ArticleList({ colors, maxItems, standalone, tagFilter }:
           >
             {article.cover_image ? (() => {
               const base = article.cover_image ?? ''
-              // 1x: 192×108, 2x: 400×225 (16:9) — height も指定してダウンロード容量を削減
+              // 1x: 192×108, 2x: 384×216 (16:9) — 表示実寸 2x で Improve image delivery 対策
               const url1x = base.replace('width=1000', 'width=192').replace(/height=\d+/, 'height=108')
-              const url2x = base.replace('width=1000', 'width=400').replace(/height=\d+/, 'height=225')
+              const url2x = base.replace('width=1000', 'width=384').replace(/height=\d+/, 'height=216')
               return (
                 <img
                   src={url1x}
