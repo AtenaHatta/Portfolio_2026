@@ -23,6 +23,9 @@ export default function AssetImage({
 }: AssetImageProps) {
   const webpSrc = src.replace(/\.png$/i, '.webp')
   const isLocalAsset = src.startsWith('/assets/') && /\.png$/i.test(src)
+  const isHero = /hero/i.test(src)
+  const effectiveLoading = isHero ? 'eager' : loading
+  const effectiveRest = isHero ? { ...rest, fetchPriority: (rest.fetchPriority ?? 'high') as 'high' | 'low' | 'auto' } : rest
 
   if (isLocalAsset) {
     return (
@@ -33,10 +36,10 @@ export default function AssetImage({
           alt={alt}
           width={width}
           height={height}
-          loading={loading}
+          loading={effectiveLoading}
           decoding={decoding}
           className={className}
-          {...rest}
+          {...effectiveRest}
         />
       </picture>
     )
@@ -48,10 +51,10 @@ export default function AssetImage({
       alt={alt}
       width={width}
       height={height}
-      loading={loading}
+      loading={effectiveLoading}
       decoding={decoding}
       className={className}
-      {...rest}
+      {...effectiveRest}
     />
   )
 }

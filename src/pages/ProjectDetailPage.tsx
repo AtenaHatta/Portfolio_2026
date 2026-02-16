@@ -1037,6 +1037,7 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
           alt="Enlarged view"
           decoding="async"
           loading="eager"
+          fetchPriority="high"
           className="w-auto h-auto object-contain rounded-lg"
           style={
             imageNaturalSize[modalImage]

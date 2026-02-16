@@ -49,14 +49,14 @@ function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
             {/* Projects List */}
             <div className="space-y-20 sm:space-y-12 mb-8" id="projects">
               {projects.map((project, index) => {
-                const isFirstOnHome = !standalone && index === 0
+                const isFirstCard = index === 0
                 return (
                 <Link
                   key={project.id}
                   to={`/project/${project.id}`}
                   className="group flex flex-col sm:flex-row gap-4 sm:gap-6 hover:opacity-80 transition-opacity"
                 >
-                  {/* Project Image or Placeholder (larger on /project page); first on home = LCP candidate */}
+                  {/* Project Image or Placeholder; first card (e.g. certificate-hero) = eager, no lazy */}
                   <div
                     className={`flex-shrink-0 w-full rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-700 aspect-video sm:aspect-auto ${
                       standalone ? 'sm:w-64 h-52 sm:h-44' : 'sm:w-48 h-40 sm:h-32'
@@ -68,9 +68,9 @@ function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
                         alt={project.title ? `${project.title} thumbnail` : 'Project thumbnail'}
                         width={standalone ? 256 : 192}
                         height={standalone ? 176 : 128}
-                        loading={isFirstOnHome ? 'eager' : 'lazy'}
+                        loading={isFirstCard ? 'eager' : 'lazy'}
                         decoding="async"
-                        {...(isFirstOnHome ? { fetchPriority: 'high' as const } : {})}
+                        {...(isFirstCard ? { fetchPriority: 'high' as const } : {})}
                         className="w-full h-full object-cover"
                       />
                     ) : (
