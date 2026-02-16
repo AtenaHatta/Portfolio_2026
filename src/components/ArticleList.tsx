@@ -48,7 +48,7 @@ export default function ArticleList({ colors, maxItems, standalone, tagFilter }:
           rel="noopener noreferrer"
           className="group flex flex-col sm:flex-row gap-4 sm:gap-6 hover:opacity-80 transition-opacity"
         >
-          {/* Image (same size as project card: standalone = articles page, non-standalone = home) */}
+          {/* Image (same size as project card: standalone = articles page, non-standalone = home); aspect-video + sm fixed size for CLS */}
           <div
             className={`flex-shrink-0 w-full rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-700 aspect-video sm:aspect-auto ${
               standalone ? 'sm:w-64 h-52 sm:h-44' : 'sm:w-48 h-40 sm:h-32'
@@ -56,15 +56,16 @@ export default function ArticleList({ colors, maxItems, standalone, tagFilter }:
           >
             {article.cover_image ? (() => {
               const base = article.cover_image ?? ''
-              const url1x = base.replace('width=1000', 'width=200')
-              const url2x = base.replace('width=1000', 'width=384')
+              const url1x = base.replace('width=1000', 'width=192')
+              const url2x = base.replace('width=1000', 'width=400')
               return (
                 <img
                   src={url1x}
                   srcSet={`${url1x} 1x, ${url2x} 2x`}
+                  sizes="(max-width: 768px) 100vw, 192px"
                   alt={article.title}
-                  width={384}
-                  height={216}
+                  width={192}
+                  height={108}
                   loading="lazy"
                   decoding="async"
                   className="w-full h-full object-cover"

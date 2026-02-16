@@ -7,7 +7,7 @@ interface ArticlePageProps {
 
 function ArticlePage({ colors }: ArticlePageProps) {
   return (
-    <div className="pt-24 sm:pt-48 pb-32">
+    <div className="pt-24 sm:pt-48 pb-8">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-24">
         <div className="flex flex-col md:flex-row gap-12">
           {/* Left Side - Title */}

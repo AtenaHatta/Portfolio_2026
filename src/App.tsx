@@ -1,8 +1,16 @@
-import { Suspense, lazy } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Suspense, lazy, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import { useTheme } from './hooks/useTheme'
 import Header from './components/Header'
 import Footer from './components/Footer'
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+  return null
+}
 
 const HomePage = lazy(() => import('./pages/HomePage'))
 const AboutPage = lazy(() => import('./pages/AboutPage'))
@@ -15,6 +23,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <div 
         className="min-h-screen transition-colors duration-200"
         style={{

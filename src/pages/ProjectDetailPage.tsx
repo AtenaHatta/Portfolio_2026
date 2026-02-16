@@ -245,8 +245,8 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                 <AssetImage
                   src={project.topImage}
                   alt={`${project.title} overview`}
-                  width={800}
-                  height={450}
+                  width={192}
+                  height={128}
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"
