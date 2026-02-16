@@ -16,6 +16,9 @@ dependencies:
     version: 6.30.3(react-dom@18.3.1)(react@18.3.1)
 
 devDependencies:
+  '@fontsource/iosevka':
+    specifier: ^5.2.5
+    version: 5.2.5
   '@types/react':
     specifier: ^18.2.43
     version: 18.3.27
@@ -481,6 +484,10 @@ packages:
   /@eslint/js@8.57.1:
     resolution: {integrity: sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    dev: true
+
+  /@fontsource/iosevka@5.2.5:
+    resolution: {integrity: sha512-Zv/UHJodDug1LcnWv2u2+GPp3oWP3U6Xp16cJOsqqZQNsCu8sA/ttT331N0NypxBZ+7c8szlSRlYDcy9liZ8pw==}
     dev: true
 
   /@humanwhocodes/config-array@0.13.0:

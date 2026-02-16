@@ -24,7 +24,7 @@ export default function ArticleList({ colors, maxItems, standalone, tagFilter }:
     return list
   }, [tagFilter])
 
-  const secondaryColor = colors?.secondary.text ?? '#6B7280'
+  const secondaryColor = colors?.secondary.text ?? '#D1D5DB'
   const chipBg = colors?.chip.bg ?? '#E5E7EB'
   const chipText = colors?.chip.text ?? '#374151'
 

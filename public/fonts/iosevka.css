@@ -1,0 +1,16 @@
+/* Iosevka - local webfonts (WCAG-friendly, no CDN MIME issues) */
+@font-face {
+  font-family: 'Iosevka';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(/fonts/iosevka-latin-300-normal.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Iosevka';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/iosevka-latin-400-normal.woff2) format('woff2');
+}

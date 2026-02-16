@@ -41,7 +41,7 @@ export const colors = {
       text: '#1F2937', // dark gray
     },
     secondary: {
-      text: '#6B7280', // medium gray
+      text: '#D1D5DB', // gray-300: WCAG AA compliant on #000000 (4.5:1+)
     },
     disabled: {
       text: '#9CA3AF', // lighter medium gray
