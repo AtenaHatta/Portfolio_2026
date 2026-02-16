@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import type { DevToArticle } from '../types/devto'
+import { useMemo } from 'react'
 import type { getColors } from '../config/colors'
+import { devToArticles } from '../data/devto-articles'
 
 interface ArticleListProps {
   colors?: ReturnType<typeof getColors>
@@ -13,58 +13,21 @@ interface ArticleListProps {
 }
 
 export default function ArticleList({ colors, maxItems, standalone, tagFilter }: ArticleListProps) {
-  const [articles, setArticles] = useState<DevToArticle[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const username = 'atena'
-        const res = await fetch(`https://dev.to/api/articles?username=${username}`)
-
-        if (!res.ok) {
-          throw new Error('Failed to fetch articles')
-        }
-
-        const data = await res.json()
-        let list = [...data].sort(
-          (a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime()
-        )
-        if (tagFilter) {
-          const tagLower = tagFilter.toLowerCase()
-          list = list.filter((a) => a.tag_list.some((t: string) => t.toLowerCase() === tagLower))
-        }
-        setArticles(list)
-      } catch (err) {
-        console.error(err)
-        setError('記事の読み込みに失敗しました。')
-      } finally {
-        setLoading(false)
-      }
+  const articles = useMemo(() => {
+    let list = [...devToArticles].sort(
+      (a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime()
+    )
+    if (tagFilter) {
+      const tagLower = tagFilter.toLowerCase()
+      list = list.filter((a) => a.tag_list.some((t: string) => t.toLowerCase() === tagLower))
     }
-
-    fetchArticles()
+    return list
   }, [tagFilter])
 
   const secondaryColor = colors?.secondary.text ?? '#6B7280'
   const chipBg = colors?.chip.bg ?? '#E5E7EB'
   const chipText = colors?.chip.text ?? '#374151'
 
-  if (loading) {
-    return (
-      <p className="font-light" style={{ color: secondaryColor }}>
-        Loading articles...
-      </p>
-    )
-  }
-  if (error) {
-    return (
-      <p className="font-light" style={{ color: secondaryColor }}>
-        {error}
-      </p>
-    )
-  }
   if (articles.length === 0) {
     return (
       <p className="font-light" style={{ color: secondaryColor }}>
@@ -93,11 +56,13 @@ export default function ArticleList({ colors, maxItems, standalone, tagFilter }:
           >
             {article.cover_image ? (
               <img
-                src={article.cover_image}
+                src={(article.cover_image ?? '').replace('width=1000', 'width=500')}
                 alt={article.title}
-                className="w-full h-full object-cover"
+                width={500}
+                height={281}
                 loading="lazy"
                 decoding="async"
+                className="w-full h-full object-cover"
               />
             ) : (
               <div

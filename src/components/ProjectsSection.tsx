@@ -62,10 +62,12 @@ function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
                     {project.image ? (
                       <img
                         src={project.image}
-                        alt=""
-                        className="w-full h-full object-cover"
+                        alt={project.title ? `${project.title} thumbnail` : 'Project thumbnail'}
+                        width={640}
+                        height={360}
                         loading="lazy"
                         decoding="async"
+                        className="w-full h-full object-cover"
                       />
                     ) : (
                       <div

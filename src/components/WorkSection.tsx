@@ -86,12 +86,14 @@ function WorkSection({ colors }: WorkSectionProps) {
                   {/* Icon */}
                   {work.icon ? (
                     <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden opacity-50 transition-opacity group-hover:opacity-100 pointer-events-none">
-                      <img 
-                        src={work.icon} 
+                      <img
+                        src={work.icon}
                         alt={`${work.company} logo`}
-                        className="w-full h-full object-cover"
+                        width={64}
+                        height={64}
                         loading="lazy"
                         decoding="async"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                   ) : (

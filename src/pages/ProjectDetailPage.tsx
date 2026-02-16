@@ -1,7 +1,8 @@
 import { useParams, Link } from 'react-router-dom'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 import { getColors } from '../config/colors'
 import projectsData from '../data/projects.json'
+import { devToArticles } from '../data/devto-articles'
 import ArticleList from '../components/ArticleList'
 
 interface ProjectDetailPageProps {
@@ -93,32 +94,15 @@ const getSlug = (item: string) =>
 function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
   const { id } = useParams<{ id: string }>()
   const project = PROJECTS.find((p) => p.id === id) ?? PROJECTS[0]
-  const [relatedArticlesCount, setRelatedArticlesCount] = useState<number | null>(null)
 
-  useEffect(() => {
+  const relatedArticlesCount = useMemo(() => {
     const section = project.sections?.['related-articles']
-    if (!section?.relatedPostsFromDevTo) {
-      setRelatedArticlesCount(null)
-      return
-    }
-    let cancelled = false
-    const username = 'atena'
-    fetch(`https://dev.to/api/articles?username=${username}`)
-      .then((res) => (res.ok ? res.json() : Promise.reject(new Error('Failed to fetch'))))
-      .then((data: { tag_list: string[] }[]) => {
-        if (cancelled) return
-        const tagLower = (section.devToTag ?? '').toLowerCase()
-        const filtered = tagLower
-          ? data.filter((a) => a.tag_list.some((t) => t.toLowerCase() === tagLower))
-          : data
-        setRelatedArticlesCount(filtered.length)
-      })
-      .catch(() => {
-        if (!cancelled) setRelatedArticlesCount(0)
-      })
-    return () => {
-      cancelled = true
-    }
+    if (!section?.relatedPostsFromDevTo) return null
+    const tagLower = (section.devToTag ?? '').toLowerCase()
+    const filtered = tagLower
+      ? devToArticles.filter((a) => a.tag_list.some((t) => t.toLowerCase() === tagLower))
+      : devToArticles
+    return filtered.length
   }, [project.sections])
 
   const hasRelatedArticles = (() => {
@@ -259,10 +243,12 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
               <div className="aspect-video lg:aspect-auto lg:h-full rounded-lg overflow-hidden">
                 <img
                   src={project.topImage}
-                  alt=""
-                  className="w-full h-full object-cover rounded-lg"
+                  alt={`${project.title} overview`}
+                  width={800}
+                  height={450}
                   loading="lazy"
                   decoding="async"
+                  className="w-full h-full object-cover rounded-lg"
                 />
               </div>
             ) : (
@@ -445,10 +431,12 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                             >
                               <img
                                 src={project.sections[slug].image}
-                                alt=""
-                                className="rounded-lg hover:opacity-90 transition-opacity"
+                                alt={((project.sections[slug] as SectionContent).imageTitle) || 'Section image'}
+                                width={800}
+                                height={450}
                                 loading="lazy"
                                 decoding="async"
+                                className="rounded-lg hover:opacity-90 transition-opacity"
                                 style={getImageStyle(project.sections[slug].image!)}
                                 onLoad={handleImageLoad}
                               />
@@ -469,10 +457,12 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                             >
                               <img
                                 src={project.sections[slug].imageBelowFirst}
-                                alt=""
-                                className="rounded-lg hover:opacity-90 transition-opacity"
+                                alt={((project.sections[slug] as SectionContent).imageBelowFirstTitle) || 'Section image'}
+                                width={800}
+                                height={450}
                                 loading="lazy"
                                 decoding="async"
+                                className="rounded-lg hover:opacity-90 transition-opacity"
                                 style={getImageStyle(project.sections[slug].imageBelowFirst!)}
                                 onLoad={handleImageLoad}
                               />
@@ -736,10 +726,12 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                                   >
                                                     <img
                                                       src={sub.imageSrc}
-                                                      alt=""
-                                                      className="rounded-lg hover:opacity-90 transition-opacity max-w-full"
+                                                      alt={sub.heading || 'Section diagram'}
+                                                      width={800}
+                                                      height={450}
                                                       loading="lazy"
                                                       decoding="async"
+                                                      className="rounded-lg hover:opacity-90 transition-opacity max-w-full"
                                                       style={getImageStyle(sub.imageSrc)}
                                                       onLoad={handleImageLoad}
                                                     />
@@ -766,10 +758,12 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                         >
                                           <img
                                             src={block.imageSrc}
-                                            alt=""
-                                            className="rounded-lg hover:opacity-90 transition-opacity"
+                                            alt={block.title || 'Process step image'}
+                                            width={800}
+                                            height={450}
                                             loading="lazy"
                                             decoding="async"
+                                            className="rounded-lg hover:opacity-90 transition-opacity"
                                             style={getImageStyle(block.imageSrc)}
                                             onLoad={handleImageLoad}
                                           />
@@ -951,10 +945,12 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                       >
                                         <img
                                           src={section.imageAfterIndexSrc}
-                                          alt=""
-                                          className="rounded-lg hover:opacity-90 transition-opacity"
+                                          alt="Section image"
+                                          width={800}
+                                          height={450}
                                           loading="lazy"
                                           decoding="async"
+                                          className="rounded-lg hover:opacity-90 transition-opacity"
                                           style={getImageStyle(section.imageAfterIndexSrc)}
                                           onLoad={handleImageLoad}
                                         />
@@ -975,10 +971,12 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                             >
                               <img
                                 src={project.sections[slug].imageBelowHeading}
-                                alt=""
-                                className="rounded-lg hover:opacity-90 transition-opacity w-full h-auto max-w-3xl"
+                                alt="Section image"
+                                width={800}
+                                height={450}
                                 loading="lazy"
                                 decoding="async"
+                                className="rounded-lg hover:opacity-90 transition-opacity w-full h-auto max-w-3xl"
                                 style={getImageStyle(project.sections[slug].imageBelowHeading!)}
                                 onLoad={handleImageLoad}
                               />
@@ -1027,7 +1025,8 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
         </button>
         <img
           src={modalImage}
-          alt=""
+          alt="Enlarged view"
+          decoding="async"
           className="w-auto h-auto object-contain rounded-lg"
           style={
             imageNaturalSize[modalImage]

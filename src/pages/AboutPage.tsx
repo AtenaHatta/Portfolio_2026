@@ -31,9 +31,11 @@ function AboutPage({ colors }: AboutPageProps) {
               <img
                 src="/assets/about-photo.png"
                 alt="Atena Hatta"
-                className="w-full h-full min-h-[280px] md:min-h-0 object-cover object-top grayscale"
+                width={400}
+                height={500}
                 loading="lazy"
                 decoding="async"
+                className="w-full h-full min-h-[280px] md:min-h-0 object-cover object-top grayscale"
               />
             </div>
             {/* Content */}

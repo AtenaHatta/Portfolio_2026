@@ -57,12 +57,14 @@ function EducationSection({ colors, embed }: EducationSectionProps) {
                   {/* Icon */}
                   {education.icon ? (
                     <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden opacity-50 transition-opacity group-hover:opacity-100 pointer-events-none">
-                      <img 
-                        src={education.icon} 
+                      <img
+                        src={education.icon}
                         alt={`${education.institution} logo`}
-                        className="w-full h-full object-cover"
+                        width={64}
+                        height={64}
                         loading="lazy"
                         decoding="async"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                   ) : (
