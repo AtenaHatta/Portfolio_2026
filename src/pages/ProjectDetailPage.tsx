@@ -247,7 +247,8 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                   alt={`${project.title} overview`}
                   width={800}
                   height={450}
-                  loading="lazy"
+                  loading="eager"
+                  fetchPriority="high"
                   decoding="async"
                   className="w-full h-full object-cover rounded-lg"
                 />
@@ -430,17 +431,19 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                               onClick={() => setModalImage(project.sections![slug].image!)}
                               className="block w-full text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white rounded-lg"
                             >
-                              <AssetImage
-                                src={project.sections[slug].image}
-                                alt={((project.sections[slug] as SectionContent).imageTitle) || 'Section image'}
-                                width={800}
-                                height={450}
-                                loading="lazy"
-                                decoding="async"
-                                className="rounded-lg hover:opacity-90 transition-opacity"
-                                style={getImageStyle(project.sections[slug].image!)}
-                                onLoad={handleImageLoad}
-                              />
+                              <div className="w-full max-w-3xl rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-700" style={{ aspectRatio: '800/450' }}>
+                                <AssetImage
+                                  src={project.sections[slug].image}
+                                  alt={((project.sections[slug] as SectionContent).imageTitle) || 'Section image'}
+                                  width={800}
+                                  height={450}
+                                  loading="lazy"
+                                  decoding="async"
+                                  className="w-full h-full object-cover rounded-lg hover:opacity-90 transition-opacity"
+                                  style={getImageStyle(project.sections[slug].image!)}
+                                  onLoad={handleImageLoad}
+                                />
+                              </div>
                             </button>
                           </div>
                         )}
@@ -456,17 +459,22 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                               onClick={() => setModalImage(project.sections![slug].imageBelowFirst!)}
                               className="block w-full text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white rounded-lg"
                             >
-                              <AssetImage
-                                src={project.sections[slug].imageBelowFirst}
-                                alt={((project.sections[slug] as SectionContent).imageBelowFirstTitle) || 'Section image'}
-                                width={800}
-                                height={450}
-                                loading="lazy"
-                                decoding="async"
-                                className="rounded-lg hover:opacity-90 transition-opacity"
-                                style={getImageStyle(project.sections[slug].imageBelowFirst!)}
-                                onLoad={handleImageLoad}
-                              />
+                              <div
+                                className="w-full max-w-3xl rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-700"
+                                style={{ aspectRatio: project.sections[slug].imageBelowFirst?.includes('certificate-flowchart') ? '800/429' : '800/450' }}
+                              >
+                                <AssetImage
+                                  src={project.sections[slug].imageBelowFirst}
+                                  alt={((project.sections[slug] as SectionContent).imageBelowFirstTitle) || 'Section image'}
+                                  width={800}
+                                  height={project.sections[slug].imageBelowFirst?.includes('certificate-flowchart') ? 429 : 450}
+                                  loading="lazy"
+                                  decoding="async"
+                                  className="w-full h-full object-cover rounded-lg hover:opacity-90 transition-opacity"
+                                  style={getImageStyle(project.sections[slug].imageBelowFirst!)}
+                                  onLoad={handleImageLoad}
+                                />
+                              </div>
                             </button>
                           </div>
                         )}

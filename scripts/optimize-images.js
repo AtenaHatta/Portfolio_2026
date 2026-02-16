@@ -25,7 +25,7 @@ async function main() {
     const input = join(assetsDir, file)
     const out = join(assetsDir, file.replace(/\.png$/i, '.webp'))
     const isIcon = /-icon\.png$/i.test(file)
-    const isHeroOrPreview = /-hero\.png$/i.test(file) || /-preview\.png$/i.test(file)
+    const isHeroOrPreviewOrFlowchart = /-hero\.png$/i.test(file) || /-preview\.png$/i.test(file) || /-flowchart\.png$/i.test(file)
 
     try {
       let pipeline = sharp(input)
@@ -35,8 +35,8 @@ async function main() {
 
       if (isIcon && (w > 128 || h > 128)) {
         pipeline = pipeline.resize(128, 128, { fit: 'inside', withoutEnlargement: true })
-      } else if ((isHeroOrPreview || w > 1200 || h > 1200) && !isIcon) {
-        const maxW = isHeroOrPreview ? 800 : 1200
+      } else if ((isHeroOrPreviewOrFlowchart || w > 1200 || h > 1200) && !isIcon) {
+        const maxW = isHeroOrPreviewOrFlowchart ? 800 : 1200
         if (w > maxW || h > maxW) {
           pipeline = pipeline.resize(maxW, null, { fit: 'inside', withoutEnlargement: true })
         }
