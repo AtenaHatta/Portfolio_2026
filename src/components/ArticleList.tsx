@@ -54,17 +54,23 @@ export default function ArticleList({ colors, maxItems, standalone, tagFilter }:
               standalone ? 'sm:w-64 h-52 sm:h-44' : 'sm:w-48 h-40 sm:h-32'
             }`}
           >
-            {article.cover_image ? (
-              <img
-                src={(article.cover_image ?? '').replace('width=1000', 'width=384')}
-                alt={article.title}
-                width={384}
-                height={216}
-                loading="lazy"
-                decoding="async"
-                className="w-full h-full object-cover"
-              />
-            ) : (
+            {article.cover_image ? (() => {
+              const base = article.cover_image ?? ''
+              const url1x = base.replace('width=1000', 'width=200')
+              const url2x = base.replace('width=1000', 'width=384')
+              return (
+                <img
+                  src={url1x}
+                  srcSet={`${url1x} 1x, ${url2x} 2x`}
+                  alt={article.title}
+                  width={384}
+                  height={216}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover"
+                />
+              )
+            })() : (
               <div
                 className="w-full h-full flex items-center justify-center opacity-50"
                 style={{ color: secondaryColor }}
