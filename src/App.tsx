@@ -32,7 +32,7 @@ function App() {
         }}
       >
         <Header isDarkMode={isDarkMode} toggleDarkMode={toggleTheme} colors={colors} />
-        <main>
+        <main className="min-h-[60vh]">
           <Suspense fallback={<div className="min-h-[60vh] flex items-center justify-center" style={{ color: colors.background.text }}>Loading...</div>}>
             <Routes>
               <Route path="/" element={<HomePage colors={colors} />} />

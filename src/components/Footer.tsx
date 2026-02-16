@@ -47,13 +47,14 @@ function Footer({ colors }: FooterProps) {
   const footerBg = isDark ? '#151515' : '#E8E8E8'
   return (
     <footer
-      className="transition-colors duration-200 min-h-[72px]"
+      className="transition-colors duration-200 h-[80px] flex items-center"
       style={{
         backgroundColor: footerBg,
         color: colors.background.text,
       }}
+      aria-label="Site footer"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-3 sm:gap-4 shrink-0">
         {/* Left: Copyright */}
         <div className="flex items-center justify-center sm:justify-start">
           <span className="text-sm font-light" style={{ color: colors.background.text }}>
