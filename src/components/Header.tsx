@@ -19,7 +19,7 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
         color: colors.background.text,
       }}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between min-h-[57px]">
         {/* Logo */}
         <div className="flex-shrink-0">
           <Link 

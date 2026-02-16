@@ -56,8 +56,9 @@ export default function ArticleList({ colors, maxItems, standalone, tagFilter }:
           >
             {article.cover_image ? (() => {
               const base = article.cover_image ?? ''
-              const url1x = base.replace('width=1000', 'width=192')
-              const url2x = base.replace('width=1000', 'width=400')
+              // 1x: 192×108, 2x: 400×225 (16:9) — height も指定してダウンロード容量を削減
+              const url1x = base.replace('width=1000', 'width=192').replace(/height=\d+/, 'height=108')
+              const url2x = base.replace('width=1000', 'width=400').replace(/height=\d+/, 'height=225')
               return (
                 <img
                   src={url1x}

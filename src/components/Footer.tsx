@@ -47,7 +47,7 @@ function Footer({ colors }: FooterProps) {
   const footerBg = isDark ? '#151515' : '#E8E8E8'
   return (
     <footer
-      className="transition-colors duration-200"
+      className="transition-colors duration-200 min-h-[72px]"
       style={{
         backgroundColor: footerBg,
         color: colors.background.text,
@@ -61,8 +61,8 @@ function Footer({ colors }: FooterProps) {
           </span>
         </div>
 
-        {/* Right: Nav links + Social icons */}
-        <div className="flex flex-wrap items-center justify-center sm:justify-end gap-6">
+        {/* Right: Nav links + Social icons (min-h to avoid wrap-induced CLS) */}
+        <div className="flex flex-wrap items-center justify-center sm:justify-end gap-6 min-h-[2rem]">
           <nav className="flex items-center gap-6">
             {navLinks.map(({ label, to }) => (
               <Link
