@@ -261,6 +261,8 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                   src={project.topImage}
                   alt=""
                   className="w-full h-full object-cover rounded-lg"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             ) : (
@@ -445,6 +447,8 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                 src={project.sections[slug].image}
                                 alt=""
                                 className="rounded-lg hover:opacity-90 transition-opacity"
+                                loading="lazy"
+                                decoding="async"
                                 style={getImageStyle(project.sections[slug].image!)}
                                 onLoad={handleImageLoad}
                               />
@@ -467,6 +471,8 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                 src={project.sections[slug].imageBelowFirst}
                                 alt=""
                                 className="rounded-lg hover:opacity-90 transition-opacity"
+                                loading="lazy"
+                                decoding="async"
                                 style={getImageStyle(project.sections[slug].imageBelowFirst!)}
                                 onLoad={handleImageLoad}
                               />
@@ -732,6 +738,8 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                                       src={sub.imageSrc}
                                                       alt=""
                                                       className="rounded-lg hover:opacity-90 transition-opacity max-w-full"
+                                                      loading="lazy"
+                                                      decoding="async"
                                                       style={getImageStyle(sub.imageSrc)}
                                                       onLoad={handleImageLoad}
                                                     />
@@ -760,6 +768,8 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                             src={block.imageSrc}
                                             alt=""
                                             className="rounded-lg hover:opacity-90 transition-opacity"
+                                            loading="lazy"
+                                            decoding="async"
                                             style={getImageStyle(block.imageSrc)}
                                             onLoad={handleImageLoad}
                                           />
@@ -943,6 +953,8 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                           src={section.imageAfterIndexSrc}
                                           alt=""
                                           className="rounded-lg hover:opacity-90 transition-opacity"
+                                          loading="lazy"
+                                          decoding="async"
                                           style={getImageStyle(section.imageAfterIndexSrc)}
                                           onLoad={handleImageLoad}
                                         />
@@ -965,6 +977,8 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                 src={project.sections[slug].imageBelowHeading}
                                 alt=""
                                 className="rounded-lg hover:opacity-90 transition-opacity w-full h-auto max-w-3xl"
+                                loading="lazy"
+                                decoding="async"
                                 style={getImageStyle(project.sections[slug].imageBelowHeading!)}
                                 onLoad={handleImageLoad}
                               />

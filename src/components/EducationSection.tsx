@@ -61,6 +61,8 @@ function EducationSection({ colors, embed }: EducationSectionProps) {
                         src={education.icon} 
                         alt={`${education.institution} logo`}
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   ) : (

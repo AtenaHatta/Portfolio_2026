@@ -64,6 +64,8 @@ function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
                         src={project.image}
                         alt=""
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                       />
                     ) : (
                       <div

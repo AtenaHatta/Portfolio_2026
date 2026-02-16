@@ -1,12 +1,14 @@
+import { Suspense, lazy } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useTheme } from './hooks/useTheme'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import HomePage from './pages/HomePage'
-import AboutPage from './pages/AboutPage'
-import ProjectsPage from './pages/ProjectsPage'
-import ProjectDetailPage from './pages/ProjectDetailPage'
-import ArticlePage from './pages/ArticlePage'
+
+const HomePage = lazy(() => import('./pages/HomePage'))
+const AboutPage = lazy(() => import('./pages/AboutPage'))
+const ProjectsPage = lazy(() => import('./pages/ProjectsPage'))
+const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'))
+const ArticlePage = lazy(() => import('./pages/ArticlePage'))
 
 function App() {
   const { isDarkMode, toggleTheme, colors } = useTheme()
@@ -22,13 +24,15 @@ function App() {
       >
         <Header isDarkMode={isDarkMode} toggleDarkMode={toggleTheme} colors={colors} />
         <main>
-          <Routes>
-            <Route path="/" element={<HomePage colors={colors} />} />
-            <Route path="/about" element={<AboutPage colors={colors} />} />
-            <Route path="/project" element={<ProjectsPage colors={colors} />} />
-            <Route path="/project/:id" element={<ProjectDetailPage colors={colors} />} />
-            <Route path="/articles" element={<ArticlePage colors={colors} />} />
-          </Routes>
+          <Suspense fallback={<div className="min-h-[60vh] flex items-center justify-center" style={{ color: colors.background.text }}>Loading...</div>}>
+            <Routes>
+              <Route path="/" element={<HomePage colors={colors} />} />
+              <Route path="/about" element={<AboutPage colors={colors} />} />
+              <Route path="/project" element={<ProjectsPage colors={colors} />} />
+              <Route path="/project/:id" element={<ProjectDetailPage colors={colors} />} />
+              <Route path="/articles" element={<ArticlePage colors={colors} />} />
+            </Routes>
+          </Suspense>
         </main>
         <Footer colors={colors} />
       </div>

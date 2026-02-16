@@ -90,6 +90,8 @@ function WorkSection({ colors }: WorkSectionProps) {
                         src={work.icon} 
                         alt={`${work.company} logo`}
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   ) : (

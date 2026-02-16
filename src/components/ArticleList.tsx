@@ -96,6 +96,8 @@ export default function ArticleList({ colors, maxItems, standalone, tagFilter }:
                 src={article.cover_image}
                 alt={article.title}
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             ) : (
               <div
