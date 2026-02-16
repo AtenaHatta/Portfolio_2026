@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { getColors } from '../config/colors'
+import AssetImage from './AssetImage'
 import projectsData from '../data/projects.json'
 
 interface ProjectsSectionProps {
@@ -60,7 +61,7 @@ function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
                     }`}
                   >
                     {project.image ? (
-                      <img
+                      <AssetImage
                         src={project.image}
                         alt={project.title ? `${project.title} thumbnail` : 'Project thumbnail'}
                         width={640}

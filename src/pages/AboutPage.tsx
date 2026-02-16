@@ -1,4 +1,5 @@
 import { getColors } from '../config/colors'
+import AssetImage from '../components/AssetImage'
 import EducationSection from '../components/EducationSection'
 import PassionSection from '../components/PassionSection'
 
@@ -28,7 +29,7 @@ function AboutPage({ colors }: AboutPageProps) {
           <div className="flex-1 flex flex-col md:flex-row gap-6 md:gap-8 md:items-stretch">
             {/* Photo (白黒表示) - 大きめ・高さはテキストに合わせる */}
             <div className="flex-shrink-0 w-full max-w-sm md:max-w-none md:w-80 md:h-full overflow-hidden rounded-lg">
-              <img
+              <AssetImage
                 src="/assets/about-photo.png"
                 alt="Atena Hatta"
                 width={400}

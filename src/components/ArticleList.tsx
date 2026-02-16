@@ -56,10 +56,10 @@ export default function ArticleList({ colors, maxItems, standalone, tagFilter }:
           >
             {article.cover_image ? (
               <img
-                src={(article.cover_image ?? '').replace('width=1000', 'width=500')}
+                src={(article.cover_image ?? '').replace('width=1000', 'width=384')}
                 alt={article.title}
-                width={500}
-                height={281}
+                width={384}
+                height={216}
                 loading="lazy"
                 decoding="async"
                 className="w-full h-full object-cover"

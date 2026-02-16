@@ -1,4 +1,5 @@
 import { getColors } from '../config/colors'
+import AssetImage from './AssetImage'
 
 interface EducationSectionProps {
   colors: ReturnType<typeof getColors>
@@ -57,7 +58,7 @@ function EducationSection({ colors, embed }: EducationSectionProps) {
                   {/* Icon */}
                   {education.icon ? (
                     <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden opacity-50 transition-opacity group-hover:opacity-100 pointer-events-none">
-                      <img
+                      <AssetImage
                         src={education.icon}
                         alt={`${education.institution} logo`}
                         width={64}

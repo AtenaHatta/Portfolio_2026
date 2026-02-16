@@ -3,6 +3,7 @@ import { useRef, useState, useEffect, useMemo } from 'react'
 import { getColors } from '../config/colors'
 import projectsData from '../data/projects.json'
 import { devToArticles } from '../data/devto-articles'
+import AssetImage from '../components/AssetImage'
 import ArticleList from '../components/ArticleList'
 
 interface ProjectDetailPageProps {
@@ -241,7 +242,7 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
           <div className="flex-shrink-0 lg:w-2/5 min-h-0">
             {project.topImage ? (
               <div className="aspect-video lg:aspect-auto lg:h-full rounded-lg overflow-hidden">
-                <img
+                <AssetImage
                   src={project.topImage}
                   alt={`${project.title} overview`}
                   width={800}
@@ -429,7 +430,7 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                               onClick={() => setModalImage(project.sections![slug].image!)}
                               className="block w-full text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white rounded-lg"
                             >
-                              <img
+                              <AssetImage
                                 src={project.sections[slug].image}
                                 alt={((project.sections[slug] as SectionContent).imageTitle) || 'Section image'}
                                 width={800}
@@ -455,7 +456,7 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                               onClick={() => setModalImage(project.sections![slug].imageBelowFirst!)}
                               className="block w-full text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white rounded-lg"
                             >
-                              <img
+                              <AssetImage
                                 src={project.sections[slug].imageBelowFirst}
                                 alt={((project.sections[slug] as SectionContent).imageBelowFirstTitle) || 'Section image'}
                                 width={800}
@@ -724,7 +725,7 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                                     onClick={() => setModalImage(sub.imageSrc!)}
                                                     className="block w-full text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-lg"
                                                   >
-                                                    <img
+                                                    <AssetImage
                                                       src={sub.imageSrc}
                                                       alt={sub.heading || 'Section diagram'}
                                                       width={800}
@@ -756,7 +757,7 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                           onClick={() => setModalImage(block.imageSrc!)}
                                           className="block w-full text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-lg"
                                         >
-                                          <img
+                                          <AssetImage
                                             src={block.imageSrc}
                                             alt={block.title || 'Process step image'}
                                             width={800}
@@ -943,7 +944,7 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                         onClick={() => setModalImage(section.imageAfterIndexSrc!)}
                                         className="block w-full text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded-lg"
                                       >
-                                        <img
+                                        <AssetImage
                                           src={section.imageAfterIndexSrc}
                                           alt="Section image"
                                           width={800}
@@ -969,7 +970,7 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                               onClick={() => setModalImage(project.sections![slug].imageBelowHeading!)}
                               className="block w-full text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white rounded-lg"
                             >
-                              <img
+                              <AssetImage
                                 src={project.sections[slug].imageBelowHeading}
                                 alt="Section image"
                                 width={800}
@@ -1023,10 +1024,11 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        <img
+        <AssetImage
           src={modalImage}
           alt="Enlarged view"
           decoding="async"
+          loading="eager"
           className="w-auto h-auto object-contain rounded-lg"
           style={
             imageNaturalSize[modalImage]

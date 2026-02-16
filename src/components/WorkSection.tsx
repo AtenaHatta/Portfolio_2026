@@ -1,4 +1,5 @@
 import { getColors } from '../config/colors'
+import AssetImage from './AssetImage'
 
 interface WorkSectionProps {
   colors: ReturnType<typeof getColors>
@@ -86,7 +87,7 @@ function WorkSection({ colors }: WorkSectionProps) {
                   {/* Icon */}
                   {work.icon ? (
                     <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden opacity-50 transition-opacity group-hover:opacity-100 pointer-events-none">
-                      <img
+                      <AssetImage
                         src={work.icon}
                         alt={`${work.company} logo`}
                         width={64}
