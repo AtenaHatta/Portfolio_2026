@@ -31,7 +31,7 @@ function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
     })
 
   return (
-    <section className={standalone ? 'py-48 min-h-screen' : 'py-20'}>
+    <section className={standalone ? 'pt-24 pb-48 sm:py-48 min-h-screen' : 'pt-10 pb-20 sm:py-20'}>
       <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-24">
         <div className="flex flex-col md:flex-row gap-12">
           {/* Left Side - Title */}
@@ -47,7 +47,7 @@ function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
           {/* Right Side - Content */}
           <div className="flex-1">
             {/* Projects List */}
-            <div className="space-y-12 mb-8" id="projects">
+            <div className="space-y-20 sm:space-y-12 mb-8" id="projects">
               {projects.map((project) => (
                 <Link
                   key={project.id}

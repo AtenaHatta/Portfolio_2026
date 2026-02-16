@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-  font-family: 'Iosevka', monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 /* Hero section: subtle background animation */

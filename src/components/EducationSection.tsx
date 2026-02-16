@@ -57,12 +57,12 @@ function EducationSection({ colors, embed }: EducationSectionProps) {
                 <>
                   {/* Icon */}
                   {education.icon ? (
-                    <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden opacity-50 transition-opacity group-hover:opacity-100 pointer-events-none">
+                    <div className="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden sm:opacity-50 sm:transition-opacity sm:group-hover:opacity-100 pointer-events-none">
                       <AssetImage
                         src={education.icon}
                         alt={`${education.institution} logo`}
-                        width={64}
-                        height={64}
+                        width={80}
+                        height={80}
                         loading="lazy"
                         decoding="async"
                         className="w-full h-full object-cover"
@@ -70,7 +70,7 @@ function EducationSection({ colors, embed }: EducationSectionProps) {
                     </div>
                   ) : (
                     <div 
-                      className="flex-shrink-0 w-16 h-16 rounded-lg pointer-events-none"
+                      className="flex-shrink-0 w-20 h-20 rounded-lg pointer-events-none"
                       style={{ backgroundColor: colors.chip.bg }}
                     />
                   )}

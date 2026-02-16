@@ -10,7 +10,7 @@ const MAX_ITEMS = 4
 
 function ArticleSection({ colors }: ArticleSectionProps) {
   return (
-    <section className="py-20">
+    <section className="pt-10 pb-20 sm:py-20">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-24">
         <div className="flex flex-col md:flex-row gap-12">
           {/* Left Side - Title */}

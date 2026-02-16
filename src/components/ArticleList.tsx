@@ -39,7 +39,7 @@ export default function ArticleList({ colors, maxItems, standalone, tagFilter }:
   const displayArticles = maxItems != null ? articles.slice(0, maxItems) : articles
 
   return (
-    <div className="space-y-12 mb-8">
+    <div className="space-y-20 sm:space-y-12 mb-8">
       {displayArticles.map((article) => (
         <a
           key={article.id}

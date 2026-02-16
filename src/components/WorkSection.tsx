@@ -82,16 +82,16 @@ function WorkSection({ colors }: WorkSectionProps) {
                   href={work.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-start gap-6 rounded-lg p-4 -mx-4 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800/80"
+                  className="group flex items-stretch gap-6 rounded-lg p-4 -mx-4 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800/80"
                 >
-                  {/* Icon */}
+                  {/* Icon: square, larger size */}
                   {work.icon ? (
-                    <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden opacity-50 transition-opacity group-hover:opacity-100 pointer-events-none">
+                    <div className="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden sm:opacity-50 sm:transition-opacity sm:group-hover:opacity-100 pointer-events-none">
                       <AssetImage
                         src={work.icon}
                         alt={`${work.company} logo`}
-                        width={64}
-                        height={64}
+                        width={80}
+                        height={80}
                         loading="lazy"
                         decoding="async"
                         className="w-full h-full object-cover"
@@ -99,13 +99,13 @@ function WorkSection({ colors }: WorkSectionProps) {
                     </div>
                   ) : (
                     <div 
-                      className="flex-shrink-0 w-16 h-16 rounded-lg pointer-events-none"
+                      className="flex-shrink-0 w-20 h-20 rounded-lg pointer-events-none"
                       style={{ backgroundColor: colors.chip.bg }}
                     />
                   )}
 
-                  {/* Work Info */}
-                  <div className="flex-1 flex items-start justify-between gap-4 min-w-0">
+                  {/* Work Info: on mobile = title, company, period, location; on sm+ = title+company left, period+location right */}
+                  <div className="flex-1 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-4 min-w-0">
                     <div>
                       <h3 
                         className="text-xl font-light mb-1"
@@ -119,8 +119,24 @@ function WorkSection({ colors }: WorkSectionProps) {
                       >
                         {work.company}
                       </p>
+                      {/* Period under title/company on mobile only */}
+                      <p 
+                        className="text-base font-light sm:hidden mt-1"
+                        style={{ color: colors.secondary.text }}
+                      >
+                        {work.period}
+                      </p>
+                      {work.location && (
+                        <p 
+                          className="text-base font-light sm:hidden"
+                          style={{ color: colors.secondary.text }}
+                        >
+                          {work.location}
+                        </p>
+                      )}
                     </div>
-                    <div className="text-right flex-shrink-0">
+                    {/* Period + location on desktop (right-aligned) */}
+                    <div className="text-right flex-shrink-0 hidden sm:block">
                       <p 
                         className="text-base font-light whitespace-nowrap"
                         style={{ color: colors.secondary.text }}
