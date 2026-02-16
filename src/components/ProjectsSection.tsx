@@ -48,13 +48,15 @@ function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
           <div className="flex-1">
             {/* Projects List */}
             <div className="space-y-20 sm:space-y-12 mb-8" id="projects">
-              {projects.map((project) => (
+              {projects.map((project, index) => {
+                const isFirstOnHome = !standalone && index === 0
+                return (
                 <Link
                   key={project.id}
                   to={`/project/${project.id}`}
                   className="group flex flex-col sm:flex-row gap-4 sm:gap-6 hover:opacity-80 transition-opacity"
                 >
-                  {/* Project Image or Placeholder (larger on /project page) */}
+                  {/* Project Image or Placeholder (larger on /project page); first on home = LCP candidate */}
                   <div
                     className={`flex-shrink-0 w-full rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-700 aspect-video sm:aspect-auto ${
                       standalone ? 'sm:w-64 h-52 sm:h-44' : 'sm:w-48 h-40 sm:h-32'
@@ -64,10 +66,11 @@ function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
                       <AssetImage
                         src={project.image}
                         alt={project.title ? `${project.title} thumbnail` : 'Project thumbnail'}
-                        width={640}
-                        height={360}
-                        loading="lazy"
+                        width={standalone ? 256 : 192}
+                        height={standalone ? 176 : 128}
+                        loading={isFirstOnHome ? 'eager' : 'lazy'}
                         decoding="async"
+                        {...(isFirstOnHome ? { fetchPriority: 'high' as const } : {})}
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -108,7 +111,8 @@ function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
                     </div>
                   </div>
                 </Link>
-              ))}
+              );
+              })}
             </div>
 
             {/* View more Link (home のみ表示、/project では非表示) */}
