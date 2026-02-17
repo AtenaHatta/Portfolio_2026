@@ -1,10 +1,10 @@
-import type { ImgHTMLAttributes } from 'react'
+import type { ImgHTMLAttributes } from 'react';
 
 interface AssetImageProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, 'src'> {
-  src: string
-  alt: string
-  width?: number
-  height?: number
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
 }
 
 /**
@@ -21,11 +21,13 @@ export default function AssetImage({
   className,
   ...rest
 }: AssetImageProps) {
-  const webpSrc = src.replace(/\.png$/i, '.webp')
-  const isLocalAsset = src.startsWith('/assets/') && /\.png$/i.test(src)
-  const isHero = /hero/i.test(src)
-  const effectiveLoading = isHero ? 'eager' : loading
-  const effectiveRest = isHero ? { ...rest, fetchPriority: (rest.fetchPriority ?? 'high') as 'high' | 'low' | 'auto' } : rest
+  const webpSrc = src.replace(/\.png$/i, '.webp');
+  const isLocalAsset = src.startsWith('/assets/') && /\.png$/i.test(src);
+  const isHero = /hero/i.test(src);
+  const effectiveLoading = isHero ? 'eager' : loading;
+  const effectiveRest = isHero
+    ? { ...rest, fetchPriority: (rest.fetchPriority ?? 'high') as 'high' | 'low' | 'auto' }
+    : rest;
 
   if (isLocalAsset) {
     return (
@@ -42,7 +44,7 @@ export default function AssetImage({
           {...effectiveRest}
         />
       </picture>
-    )
+    );
   }
 
   return (
@@ -56,5 +58,5 @@ export default function AssetImage({
       className={className}
       {...effectiveRest}
     />
-  )
+  );
 }

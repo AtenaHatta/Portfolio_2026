@@ -64,9 +64,9 @@ export const colors = {
       bg: 'rgba(251, 191, 36, 0.25)', // amber highlight in dark mode
     },
   },
-} as const
+} as const;
 
 // Helper function to get colors based on mode
 export const getColors = (isDarkMode: boolean) => {
-  return isDarkMode ? colors.dark : colors.light
-}
+  return isDarkMode ? colors.dark : colors.light;
+};

@@ -1,18 +1,18 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { getColors } from '../config/colors'
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import type { getColors } from '../config/colors';
 
 interface HeaderProps {
-  isDarkMode: boolean
-  toggleDarkMode: () => void
-  colors: ReturnType<typeof getColors>
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
+  colors: ReturnType<typeof getColors>;
 }
 
 function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header 
+    <header
       className="fixed top-0 left-0 right-0 z-50 transition-colors duration-200"
       style={{
         backgroundColor: colors.background.bg,
@@ -22,8 +22,8 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between min-h-[57px]">
         {/* Logo */}
         <div className="flex-shrink-0">
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="text-3xl sm:text-4xl font-serif transition-opacity hover:opacity-70"
             style={{ color: colors.background.text }}
             onClick={() => setMobileMenuOpen(false)}
@@ -34,29 +34,29 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
 
         {/* Navigation Links - Desktop */}
         <div className="hidden md:flex items-center space-x-8 flex-1 justify-center">
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="hover:opacity-70 transition-opacity"
             style={{ color: colors.background.text }}
           >
             Home
           </Link>
-          <Link 
-            to="/about" 
+          <Link
+            to="/about"
             className="hover:opacity-70 transition-opacity"
             style={{ color: colors.background.text }}
           >
             About
           </Link>
-          <Link 
-            to="/project" 
+          <Link
+            to="/project"
             className="hover:opacity-70 transition-opacity"
             style={{ color: colors.background.text }}
           >
             Project
           </Link>
-          <Link 
-            to="/articles" 
+          <Link
+            to="/articles"
             className="hover:opacity-70 transition-opacity"
             style={{ color: colors.background.text }}
           >
@@ -111,11 +111,25 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
             onClick={() => setMobileMenuOpen((open) => !open)}
           >
             {mobileMenuOpen ? (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             )}
@@ -131,32 +145,32 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
           aria-hidden="true"
         >
           <div className="flex flex-col px-6 py-8 space-y-6">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="text-lg font-light hover:opacity-70 transition-opacity py-2"
               style={{ color: colors.background.text }}
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
             </Link>
-            <Link 
-              to="/about" 
+            <Link
+              to="/about"
               className="text-lg font-light hover:opacity-70 transition-opacity py-2"
               style={{ color: colors.background.text }}
               onClick={() => setMobileMenuOpen(false)}
             >
               About
             </Link>
-            <Link 
-              to="/project" 
+            <Link
+              to="/project"
               className="text-lg font-light hover:opacity-70 transition-opacity py-2"
               style={{ color: colors.background.text }}
               onClick={() => setMobileMenuOpen(false)}
             >
               Project
             </Link>
-            <Link 
-              to="/articles" 
+            <Link
+              to="/articles"
               className="text-lg font-light hover:opacity-70 transition-opacity py-2"
               style={{ color: colors.background.text }}
               onClick={() => setMobileMenuOpen(false)}
@@ -167,7 +181,7 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
         </div>
       )}
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;

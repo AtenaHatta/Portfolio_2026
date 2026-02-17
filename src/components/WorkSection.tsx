@@ -1,17 +1,17 @@
-import { getColors } from '../config/colors'
-import AssetImage from './AssetImage'
+import type { getColors } from '../config/colors';
+import AssetImage from './AssetImage';
 
 interface WorkSectionProps {
-  colors: ReturnType<typeof getColors>
+  colors: ReturnType<typeof getColors>;
 }
 
 interface WorkExperience {
-  title: string
-  company: string
-  period: string
-  location?: string
-  icon?: string
-  url?: string
+  title: string;
+  company: string;
+  period: string;
+  location?: string;
+  icon?: string;
+  url?: string;
 }
 
 function WorkSection({ colors }: WorkSectionProps) {
@@ -56,7 +56,7 @@ function WorkSection({ colors }: WorkSectionProps) {
       icon: '/assets/rims-icon.png',
       url: 'https://www.rims.agency/',
     },
-  ]
+  ];
 
   return (
     <section className="py-20">
@@ -64,7 +64,7 @@ function WorkSection({ colors }: WorkSectionProps) {
         <div className="flex flex-col md:flex-row md:items-start gap-12">
           {/* Left Side - Title */}
           <div className="flex-shrink-0 md:w-48">
-            <h2 
+            <h2
               className="text-2xl md:text-3xl font-light"
               style={{ color: colors.background.text }}
             >
@@ -98,7 +98,7 @@ function WorkSection({ colors }: WorkSectionProps) {
                       />
                     </div>
                   ) : (
-                    <div 
+                    <div
                       className="flex-shrink-0 w-20 h-20 rounded-lg pointer-events-none"
                       style={{ backgroundColor: colors.chip.bg }}
                     />
@@ -107,27 +107,24 @@ function WorkSection({ colors }: WorkSectionProps) {
                   {/* Work Info: on mobile = title, company, period, location; on sm+ = title+company left, period+location right */}
                   <div className="flex-1 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-4 min-w-0">
                     <div>
-                      <h3 
+                      <h3
                         className="text-xl font-light mb-1"
                         style={{ color: colors.background.text }}
                       >
                         {work.title}
                       </h3>
-                      <p 
-                        className="text-base font-light"
-                        style={{ color: colors.secondary.text }}
-                      >
+                      <p className="text-base font-light" style={{ color: colors.secondary.text }}>
                         {work.company}
                       </p>
                       {/* Period under title/company on mobile only */}
-                      <p 
+                      <p
                         className="text-base font-light sm:hidden mt-1"
                         style={{ color: colors.secondary.text }}
                       >
                         {work.period}
                       </p>
                       {work.location && (
-                        <p 
+                        <p
                           className="text-base font-light sm:hidden"
                           style={{ color: colors.secondary.text }}
                         >
@@ -137,14 +134,14 @@ function WorkSection({ colors }: WorkSectionProps) {
                     </div>
                     {/* Period + location on desktop (right-aligned) */}
                     <div className="text-right flex-shrink-0 hidden sm:block">
-                      <p 
+                      <p
                         className="text-base font-light whitespace-nowrap"
                         style={{ color: colors.secondary.text }}
                       >
                         {work.period}
                       </p>
                       {work.location && (
-                        <p 
+                        <p
                           className="text-base font-light whitespace-nowrap mt-1"
                           style={{ color: colors.secondary.text }}
                         >
@@ -160,7 +157,7 @@ function WorkSection({ colors }: WorkSectionProps) {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default WorkSection
+export default WorkSection;

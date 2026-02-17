@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom'
-import { getColors } from '../config/colors'
-import ArticleList from './ArticleList'
+import { Link } from 'react-router-dom';
+import type { getColors } from '../config/colors';
+import ArticleList from './ArticleList';
 
 interface ArticleSectionProps {
-  colors: ReturnType<typeof getColors>
+  colors: ReturnType<typeof getColors>;
 }
 
-const MAX_ITEMS = 4
+const MAX_ITEMS = 4;
 
 function ArticleSection({ colors }: ArticleSectionProps) {
   return (
@@ -15,7 +15,7 @@ function ArticleSection({ colors }: ArticleSectionProps) {
         <div className="flex flex-col md:flex-row gap-12">
           {/* Left Side - Title */}
           <div className="flex-shrink-0 md:w-48">
-            <h2 
+            <h2
               className="text-2xl md:text-3xl font-light"
               style={{ color: colors.background.text }}
             >
@@ -54,7 +54,7 @@ function ArticleSection({ colors }: ArticleSectionProps) {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default ArticleSection
+export default ArticleSection;

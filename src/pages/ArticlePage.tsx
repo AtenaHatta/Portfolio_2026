@@ -1,8 +1,8 @@
-import { getColors } from '../config/colors'
-import ArticleList from '../components/ArticleList'
+import ArticleList from '../components/ArticleList';
+import type { getColors } from '../config/colors';
 
 interface ArticlePageProps {
-  colors: ReturnType<typeof getColors>
+  colors: ReturnType<typeof getColors>;
 }
 
 function ArticlePage({ colors }: ArticlePageProps) {
@@ -26,7 +26,7 @@ function ArticlePage({ colors }: ArticlePageProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default ArticlePage
+export default ArticlePage;

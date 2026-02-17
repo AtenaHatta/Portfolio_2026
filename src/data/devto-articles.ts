@@ -1,4 +1,4 @@
-import type { DevToArticle } from '../types/devto'
-import raw from './devto-articles.json'
+import type { DevToArticle } from '../types/devto';
+import raw from './devto-articles.json';
 
-export const devToArticles: DevToArticle[] = raw as DevToArticle[]
+export const devToArticles: DevToArticle[] = raw as DevToArticle[];

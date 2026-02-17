@@ -3,12 +3,13 @@
 @tailwind utilities;
 
 * {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
 }
 
 /* Hero section: subtle background animation */
 @keyframes hero-bg-shift {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.35;
     transform: scale(1) translate(0, 0);
   }

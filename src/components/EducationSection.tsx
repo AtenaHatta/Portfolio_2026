@@ -1,19 +1,19 @@
-import { getColors } from '../config/colors'
-import AssetImage from './AssetImage'
+import type { getColors } from '../config/colors';
+import AssetImage from './AssetImage';
 
 interface EducationSectionProps {
-  colors: ReturnType<typeof getColors>
+  colors: ReturnType<typeof getColors>;
   /** When true, render without section wrapper (for embedding in another section) */
-  embed?: boolean
+  embed?: boolean;
 }
 
 interface Education {
-  title: string
-  institution: string
-  location?: string
-  period: string
-  icon?: string
-  url?: string
+  title: string;
+  institution: string;
+  location?: string;
+  period: string;
+  icon?: string;
+  url?: string;
 }
 
 function EducationSection({ colors, embed }: EducationSectionProps) {
@@ -34,17 +34,14 @@ function EducationSection({ colors, embed }: EducationSectionProps) {
       icon: '/assets/hannan-icon.png',
       url: 'https://www.hannan-u.ac.jp/english/',
     },
-  ]
+  ];
 
   const content = (
     <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-24">
       <div className="flex flex-col md:flex-row gap-12">
         {/* Left Side - Title */}
         <div className="flex-shrink-0 md:w-48">
-          <h2 
-            className="text-2xl md:text-3xl font-light"
-            style={{ color: colors.background.text }}
-          >
+          <h2 className="text-2xl md:text-3xl font-light" style={{ color: colors.background.text }}>
             Education
           </h2>
         </div>
@@ -69,7 +66,7 @@ function EducationSection({ colors, embed }: EducationSectionProps) {
                       />
                     </div>
                   ) : (
-                    <div 
+                    <div
                       className="flex-shrink-0 w-20 h-20 rounded-lg pointer-events-none"
                       style={{ backgroundColor: colors.chip.bg }}
                     />
@@ -78,20 +75,17 @@ function EducationSection({ colors, embed }: EducationSectionProps) {
                   {/* Education Info */}
                   <div className="flex-1 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4 min-w-0">
                     <div>
-                      <h3 
+                      <h3
                         className="text-xl font-light mb-1"
                         style={{ color: colors.background.text }}
                       >
                         {education.title}
                       </h3>
-                      <p 
-                        className="text-base font-light"
-                        style={{ color: colors.secondary.text }}
-                      >
+                      <p className="text-base font-light" style={{ color: colors.secondary.text }}>
                         {education.institution}
                       </p>
                       {education.location && (
-                        <p 
+                        <p
                           className="text-base font-light mt-0.5"
                           style={{ color: colors.secondary.text }}
                         >
@@ -99,7 +93,7 @@ function EducationSection({ colors, embed }: EducationSectionProps) {
                         </p>
                       )}
                     </div>
-                    <p 
+                    <p
                       className="text-base font-light sm:whitespace-nowrap flex-shrink-0"
                       style={{ color: colors.secondary.text }}
                     >
@@ -107,8 +101,9 @@ function EducationSection({ colors, embed }: EducationSectionProps) {
                     </p>
                   </div>
                 </>
-              )
-              const className = "group flex items-start gap-6 rounded-lg p-4 -mx-4 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800/80"
+              );
+              const className =
+                'group flex items-start gap-6 rounded-lg p-4 -mx-4 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800/80';
               return education.url ? (
                 <a
                   key={index}
@@ -123,23 +118,19 @@ function EducationSection({ colors, embed }: EducationSectionProps) {
                 <div key={index} className={className}>
                   {inner}
                 </div>
-              )
+              );
             })}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 
   if (embed) {
-    return <div className="pt-24 md:pt-32">{content}</div>
+    return <div className="pt-24 md:pt-32">{content}</div>;
   }
 
-  return (
-    <section className="pt-12 pb-20">
-      {content}
-    </section>
-  )
+  return <section className="pt-12 pb-20">{content}</section>;
 }
 
-export default EducationSection
+export default EducationSection;

@@ -1,11 +1,11 @@
-import { getColors } from '../config/colors'
-import HeroSection from '../components/HeroSection'
-import WorkSection from '../components/WorkSection'
-import ProjectsSection from '../components/ProjectsSection'
-import ArticleSection from '../components/ArticleSection'
+import ArticleSection from '../components/ArticleSection';
+import HeroSection from '../components/HeroSection';
+import ProjectsSection from '../components/ProjectsSection';
+import WorkSection from '../components/WorkSection';
+import type { getColors } from '../config/colors';
 
 interface HomePageProps {
-  colors: ReturnType<typeof getColors>
+  colors: ReturnType<typeof getColors>;
 }
 
 function HomePage({ colors }: HomePageProps) {
@@ -16,7 +16,7 @@ function HomePage({ colors }: HomePageProps) {
       <ProjectsSection colors={colors} />
       <ArticleSection colors={colors} />
     </>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;

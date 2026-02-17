@@ -24,10 +24,7 @@
     "published_at": "2026-02-12T21:44:01Z",
     "last_comment_at": "2026-02-12T21:44:01Z",
     "reading_time_minutes": 3,
-    "tag_list": [
-      "nextjs",
-      "projectcollegecms"
-    ],
+    "tag_list": ["nextjs", "projectcollegecms"],
     "tags": "nextjs, projectcollegecms",
     "user": {
       "name": "Atena / Full stack developer",
@@ -65,12 +62,7 @@
     "published_at": "2026-02-12T21:37:37Z",
     "last_comment_at": "2026-02-12T21:37:37Z",
     "reading_time_minutes": 3,
-    "tag_list": [
-      "nextjs",
-      "performance",
-      "lcp",
-      "projectcollegecms"
-    ],
+    "tag_list": ["nextjs", "performance", "lcp", "projectcollegecms"],
     "tags": "nextjs, performance, lcp, projectcollegecms",
     "user": {
       "name": "Atena / Full stack developer",

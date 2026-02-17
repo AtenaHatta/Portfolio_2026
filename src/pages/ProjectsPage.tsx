@@ -1,14 +1,12 @@
-import { getColors } from '../config/colors'
-import ProjectsSection from '../components/ProjectsSection'
+import ProjectsSection from '../components/ProjectsSection';
+import type { getColors } from '../config/colors';
 
 interface ProjectsPageProps {
-  colors: ReturnType<typeof getColors>
+  colors: ReturnType<typeof getColors>;
 }
 
 function ProjectsPage({ colors }: ProjectsPageProps) {
-  return (
-    <ProjectsSection colors={colors} standalone />
-  )
+  return <ProjectsSection colors={colors} standalone />;
 }
 
-export default ProjectsPage
+export default ProjectsPage;

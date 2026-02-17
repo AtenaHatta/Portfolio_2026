@@ -4,7 +4,16 @@
       "id": "e-certificate",
       "type": "Web Platform",
       "title": "E-Certificate Issuance Web platform",
-      "technologies": ["Vue", "TypeScript", "NodeJS", "MySQL", "Cloudinary", "Hostinger", "Vercel", "Tailwind CSS"],
+      "technologies": [
+        "Vue",
+        "TypeScript",
+        "NodeJS",
+        "MySQL",
+        "Cloudinary",
+        "Hostinger",
+        "Vercel",
+        "Tailwind CSS"
+      ],
       "year": "March, 2025",
       "role": "Full stack Developer",
       "member": "2 Developers",
@@ -23,10 +32,22 @@
           ],
           "image": "/assets/certificate-preview.png",
           "keyFeatures": [
-            { "title": "Instant Generation", "description": "Client-side PDF rendering ensures zero server wait time." },
-            { "title": "Verification", "description": "Each certificate includes a unique QR code linked to a persistent public URL." },
-            { "title": "Social Sharing", "description": "Optimized Open Graph tags allow beautiful previews on platforms like Facebook and LinkedIn." },
-            { "title": "Secure Storage", "description": "Digital assets are stored in Cloudinary, while metadata is secured in MySQL." }
+            {
+              "title": "Instant Generation",
+              "description": "Client-side PDF rendering ensures zero server wait time."
+            },
+            {
+              "title": "Verification",
+              "description": "Each certificate includes a unique QR code linked to a persistent public URL."
+            },
+            {
+              "title": "Social Sharing",
+              "description": "Optimized Open Graph tags allow beautiful previews on platforms like Facebook and LinkedIn."
+            },
+            {
+              "title": "Secure Storage",
+              "description": "Digital assets are stored in Cloudinary, while metadata is secured in MySQL."
+            }
           ]
         },
         "system-design": {
@@ -231,7 +252,18 @@
       "id": "college-cms",
       "type": "Web Platform",
       "title": "Web Platform & Custom Headless CMS",
-      "technologies": ["React", "Next.js 15", "TypeScript", "Convex", "Tailwind CSS", "shadcn/ui", "Clerk", "Stripe", "Cloudinary", "Coolify"],
+      "technologies": [
+        "React",
+        "Next.js 15",
+        "TypeScript",
+        "Convex",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Clerk",
+        "Stripe",
+        "Cloudinary",
+        "Coolify"
+      ],
       "year": "June, 2025",
       "role": "Full stack Developer",
       "member": "2 Developers",
