@@ -8,8 +8,28 @@
     <title>Atena Hatta</title>
     <link rel="preload" href="/fonts/jetbrains-mono-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/jetbrains-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/fonts/jetbrains-mono.css" type="text/css" media="print" onload="this.media='all'" />
-    <noscript><link rel="stylesheet" href="/fonts/jetbrains-mono.css" type="text/css" /></noscript>
+    <style>
+      @font-face {
+        font-family: 'JetBrains Mono';
+        font-style: normal;
+        font-weight: 300;
+        font-display: optional;
+        ascent-override: 90%;
+        descent-override: 22%;
+        size-adjust: 100%;
+        src: url(/fonts/jetbrains-mono-latin-300-normal.woff2) format('woff2');
+      }
+      @font-face {
+        font-family: 'JetBrains Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-display: optional;
+        ascent-override: 90%;
+        descent-override: 22%;
+        size-adjust: 100%;
+        src: url(/fonts/jetbrains-mono-latin-400-normal.woff2) format('woff2');
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
