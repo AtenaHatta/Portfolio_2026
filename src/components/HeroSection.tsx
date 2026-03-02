@@ -109,7 +109,7 @@ function HeroSection({ colors }: HeroSectionProps) {
         {/* Description Paragraphs */}
         <div className="mb-8 space-y-2">
           <p className="text-lg md:text-xl font-light" style={{ color: colors.background.text }}>
-            <span className="font-medium">Full stack Developer</span> Vancouver, BC
+            <span className="font-medium">Full stack Developer</span>in Vancouver, BC
           </p>
           <p className="text-lg md:text-xl font-light" style={{ color: colors.background.text }}>
             I design and build web experiences.

@@ -479,16 +479,16 @@
               "Adhere to WCAG standards for inclusivity."
             ]
           },
-          "": [
+          "timelineSteps": [
             { "title": "Research", "items": ["Journey Mapping", "Research UI/UX"] },
-            { "title": "Strategy", "items": ["System Design", "Tech stack"] },
-            { "title": "Design", "items": ["Wireframes", "Mockups"] },
+            { "title": "Strategy", "items": ["Design System", "(dev & design)"] },
+            { "title": "Design", "items": ["Wireframe", "Mockup"] },
             { "title": "Development", "items": ["Coding"] },
             { "title": "Deployment", "items": ["Development", "CI/CD"] },
             { "title": "Testing", "items": ["QA Test", "Usability Testing", "Maintaine a PDCA"] }
           ],
           "body": [
-            "This lifecycle was built not just to refine visuals, but to harmonize engineering feasibility with a seamless user experience. By handling everything from scratch-built wireframes to final implementation, I ensure that the original design intent is 100% embodied in the final product."
+            "This lifecycle was built not just to refine visuals, but to engineering feasibility with a seamless user experience. By handling everything from scratch-built wireframes to final implementation, I ensure that the original design intent is 100% embodied in the final product."
           ],
           "phase2Mockup": {
             "title": "Phase 2: Mockup Design",

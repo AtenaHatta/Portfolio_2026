@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['"Noto Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       colors: {
         // Light mode colors
