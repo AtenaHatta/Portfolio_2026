@@ -20,7 +20,7 @@ function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
       return p != null ? [p] : [];
     })
     .map((p) => {
-      const projectWithTop = p as {
+      const projectWithTop = p as unknown as {
         topImage?: string;
         sections?: Record<string, { image?: string }>;
       };

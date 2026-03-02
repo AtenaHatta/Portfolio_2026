@@ -8,6 +8,13 @@ interface HeaderProps {
   colors: ReturnType<typeof getColors>;
 }
 
+const NAV_ITEMS = [
+  { to: '/', label: 'Home' },
+  { to: '/about', label: 'About' },
+  { to: '/project', label: 'Project' },
+  { to: '/articles', label: 'Articles' },
+] as const;
+
 function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -34,39 +41,20 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
 
         {/* Navigation Links - Desktop */}
         <div className="hidden md:flex items-center space-x-8 flex-1 justify-center">
-          <Link
-            to="/"
-            className="hover:opacity-70 transition-opacity"
-            style={{ color: colors.background.text }}
-          >
-            Home
-          </Link>
-          <Link
-            to="/about"
-            className="hover:opacity-70 transition-opacity"
-            style={{ color: colors.background.text }}
-          >
-            About
-          </Link>
-          <Link
-            to="/project"
-            className="hover:opacity-70 transition-opacity"
-            style={{ color: colors.background.text }}
-          >
-            Project
-          </Link>
-          <Link
-            to="/articles"
-            className="hover:opacity-70 transition-opacity"
-            style={{ color: colors.background.text }}
-          >
-            Article
-          </Link>
+          {NAV_ITEMS.map(({ to, label }) => (
+            <Link
+              key={to}
+              to={to}
+              className="hover:opacity-70 transition-opacity"
+              style={{ color: colors.background.text }}
+            >
+              {label}
+            </Link>
+          ))}
         </div>
 
-        {/* Right Side: on mobile = Dark mode → Hamburger (rightmost) */}
+        {/* Right Side: Dark mode, Hamburger */}
         <div className="flex items-center space-x-2 sm:space-x-4">
-          {/* Dark Mode Toggle */}
           <button
             onClick={toggleDarkMode}
             className="p-2 rounded-lg hover:opacity-70 transition-opacity"
@@ -74,7 +62,6 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
             aria-label="Toggle dark mode"
           >
             {isDarkMode ? (
-              // Sun icon (dark mode active)
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -90,7 +77,6 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
                 />
               </svg>
             ) : (
-              // Moon icon (light mode active)
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -101,7 +87,7 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
               </svg>
             )}
           </button>
-          {/* Mobile Menu Button (rightmost on mobile) */}
+          {/* Mobile Menu Button */}
           <button
             type="button"
             className="md:hidden p-2 rounded-lg hover:opacity-70 transition-opacity"
@@ -145,38 +131,17 @@ function Header({ isDarkMode, toggleDarkMode, colors }: HeaderProps) {
           aria-hidden="true"
         >
           <div className="flex flex-col px-6 py-8 space-y-6">
-            <Link
-              to="/"
-              className="text-lg font-light hover:opacity-70 transition-opacity py-2"
-              style={{ color: colors.background.text }}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              to="/about"
-              className="text-lg font-light hover:opacity-70 transition-opacity py-2"
-              style={{ color: colors.background.text }}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              About
-            </Link>
-            <Link
-              to="/project"
-              className="text-lg font-light hover:opacity-70 transition-opacity py-2"
-              style={{ color: colors.background.text }}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Project
-            </Link>
-            <Link
-              to="/articles"
-              className="text-lg font-light hover:opacity-70 transition-opacity py-2"
-              style={{ color: colors.background.text }}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Article
-            </Link>
+            {NAV_ITEMS.map(({ to, label }) => (
+              <Link
+                key={to}
+                to={to}
+                className="text-lg font-light hover:opacity-70 transition-opacity py-2"
+                style={{ color: colors.background.text }}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {label}
+              </Link>
+            ))}
           </div>
         </div>
       )}

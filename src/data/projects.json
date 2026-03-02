@@ -433,37 +433,23 @@
       "id": "portfolio",
       "type": "Web site",
       "title": "Portfolio",
-      "technologies": ["React", "Strapi", "TypeScript", "TailwindCSS"],
+      "technologies": ["React", "TypeScript", "TailwindCSS"],
       "year": "January, 2026",
       "role": "Full stack Developer",
       "member": "1 Developer",
-      "demoUrl": "#",
-      "sourceUrl": "#",
-      "designUrl": "#",
+      "demoUrl": "https://atena-hatta.vercel.app/",
+      "sourceUrl": "https://github.com/AtenaHatta/Portfolio_2026",
       "topImage": "/assets/portfolio-hero.png",
+      "hiddenSections": ["Security", "Next Steps"],
       "sections": {
         "product-overview": {
-          "heading": "Portfolio",
           "body": [
-            "Personal portfolio site built with React, TypeScript, and Tailwind CSS. Showcases projects, work experience, and articles."
+            "I’ve redesigned and rebuilt theportfoli multiple times, and this is a version 4. In this version, I prioritized a accessible UI/UX and focused on clearly articulating my value. I drove this project end-to-end, from the conceptual design to the technical architecture, and I update the platform by user feedback."
           ],
           "image": "/assets/portfolio-hero.png"
         },
         "process": {
           "imageTitle": "End-to-End Project Lifecycle",
-          "timelineSteps": [
-            { "title": "Research", "items": ["Journey Mapping", "Research User Experience"] },
-            { "title": "Strategy", "items": ["System Design", "Tech stack"] },
-            { "title": "Design", "items": ["Wireframes and Mockups"] },
-            { "title": "Development", "items": ["Executed precise Coding"] },
-            { "title": "Deployment", "items": ["Development, CI/CD"] },
-            { "title": "Testing", "items": ["Usability Testing", "maintained a PDCA cycle"] }
-          ],
-          "body": [
-            "This lifecycle was built not just to refine visuals, but to harmonize engineering feasibility with a seamless user experience. By handling everything from scratch-built wireframes to final implementation, I ensure that the original design intent is 100% embodied in the final product."
-          ]
-        },
-        "system-design": {
           "researchStrategy": {
             "phaseTitle": "Phase 1: Research & Strategy",
             "findings": [
@@ -492,7 +478,130 @@
               "Prioritize 'Process' documentation over art",
               "Adhere to WCAG standards for inclusivity."
             ]
+          },
+          "": [
+            { "title": "Research", "items": ["Journey Mapping", "Research UI/UX"] },
+            { "title": "Strategy", "items": ["System Design", "Tech stack"] },
+            { "title": "Design", "items": ["Wireframes", "Mockups"] },
+            { "title": "Development", "items": ["Coding"] },
+            { "title": "Deployment", "items": ["Development", "CI/CD"] },
+            { "title": "Testing", "items": ["QA Test", "Usability Testing", "Maintaine a PDCA"] }
+          ],
+          "body": [
+            "This lifecycle was built not just to refine visuals, but to harmonize engineering feasibility with a seamless user experience. By handling everything from scratch-built wireframes to final implementation, I ensure that the original design intent is 100% embodied in the final product."
+          ],
+          "phase2Mockup": {
+            "title": "Phase 2: Mockup Design",
+            "body": "Implemented a high-contrast Dark Mode and established a unified Color System and Typography in Figma, ensuring visual consistency and efficient implementation.",
+            "image": "/assets/portfolio-mockup-design.webp",
+            "subtitle": "Components, Color system, Icons",
+            "image2": "/assets/portfolio-design-color-system.webp"
+          },
+          "phase3TechStack": {
+            "title": "Phase 3: Tech Stack",
+            "items": [
+              "Frontend: React, TypeScript, Vite, Tailwind CSS",
+              "Component & quality: Storybook, Biome, Husky",
+              "Assets: Sharp, WebP",
+              "Deployment & CI/CD: Vercel",
+              "External: Dev.to API"
+            ]
           }
+        },
+        "system-design": {
+          "architectureHighlights": {
+            "image": "/assets/portfolio-dev-design-system.webp",
+            "title": "Architecture Highlights:",
+            "items": [
+              "Pre-rendering Strategy: Decoupled external dependencies (Dev.to API) by fetching data and optimizing assets (Sharp/WebP) at build time.",
+              "Optimized Delivery: Utilized Vite to inject non-blocking CSS and module preloads, ensuring a sub-second LCP.",
+              "Quality Gates: Integrated Husky, Biome, and Storybook into the workflow to enforce strict code standards and UI consistency.",
+              "Infrastructure: Deployed on Vercel's Edge Network with SPA rewrite rules for seamless client-side routing."
+            ]
+          }
+        },
+        "constraints--trade-offs": {
+          "constraintTradeOffBlocks": [
+            {
+              "heading": "1. Achieving a perfect 99% LCP score",
+              "body": [
+                "I decided to minimize heavy JavaScript animations and large assets. Instead, I focused on CSS-based micro-interactions and optimized typography.",
+                "Result: This prioritized immediate content delivery over visual excess, ensuring the best possible user retention."
+              ]
+            },
+            {
+              "heading": "2. Font loading — Layout Stability over Visual Uniformity",
+              "body": [
+                "To achieve a CLS (Cumulative Layout Shift) of 0, I transitioned from font-display: swap to optional and inlined the critical font CSS.",
+                "- The Trade-off: I accepted the risk that users on extremely slow networks might see system fonts instead of \"JetBrains Mono\" (FOIT prevention).",
+                "- The Gain: Eliminating the layout shift caused by font swapping, guaranteeing a rock-solid, jank-free visual experience for the majority of users."
+              ]
+            },
+            {
+              "heading": "3. Pre-rendering over Runtime Fetching",
+              "body": [
+                "Directly fetching articles from the Dev.to API caused unpredictable latency, negatively impacting LCP.",
+                "- The Trade-off: I prioritized load speed over real-time data freshness. Instead of fetching data on every request (CSR/SSR), I implemented SSG (Static Site Generation).",
+                "- The Gain: Decoupled the critical rendering path from external API response times, ensuring the article list loads instantly and stabilizing LCP at a high score."
+              ]
+            }
+          ]
+        },
+        "performance--accessibility": {
+          "performanceAccessibilityBlocks": [
+            {
+              "title": "Unlighthouse: Efficiency in Local Development",
+              "body": [
+                "Site-wide Auditing: Integrated Unlighthouse into the local development workflow to scan all routes simultaneously, enabling rapid identification of performance bottlenecks."
+              ],
+              "image": "/assets/portfolio-unlighthouse.webp"
+            },
+            {
+              "title": "Lighthouse: Precision Performance Tuning",
+              "body": [
+                "Multi-Platform Excellence: Achieved a 99% Performance Score on both Mobile and Desktop through rigorous auditing and technical refinement.",
+                "Surpassing Expectations: I pushed my site's performance well beyond these industry standards, achieving:",
+                "LCP (Largest Contentful Paint): 0.4s (Desktop) / 1.7s (Mobile) — significantly faster than the 2s threshold.",
+                "FCP (First Contentful Paint): 0.3s (Desktop) / 1.2s (Mobile) — ensuring nearly instantaneous visual feedback.",
+                "Total Blocking Time (TBT): 0ms — achieving a perfectly fluid interaction experience with zero execution delay.",
+                "Ultra-Low Latency: By eliminating render-blocking resources and optimizing asset delivery, I pushed the load time significantly below these thresholds—reaching millisecond-level response times to guarantee a seamless user experience.",
+                "Strategic Technical Trade-off: I made a decision to leave the final 1% unaddressed, as it stems from external API constraints within the dev.to integration. I prioritized maintaining the dynamic integration with a reputable developer platform over a purely cosmetic \"100%\" score."
+              ],
+              "image": "/assets/portfolio-lighthouse.webp"
+            }
+          ]
+        },
+        "testing--ci/cd": {
+          "testingCiCdBlock": {
+            "title": "Storybook: Component-Driven Development",
+            "body": [
+              "Scalable UI Catalog: Centralized management of reusable components like Chip, Button, and ProjectCard.",
+              "Theme & Interaction: Real-time validation for Light/Dark modes and dynamic prop testing using Storybook Controls.",
+              "Production Fidelity: Integrated Tailwind CSS and production utilities (getColors) to ensure 100% visual consistency.",
+              "Auto-Documentation: Leveraged autodocs to maintain clear UI specifications for seamless handovers and onboarding.",
+              "Static Deployment: Deployed a public UI library via Vercel to demonstrate modular architecture and design system expertise."
+            ],
+            "image": "/assets/portfolio-storybook.webp"
+          }
+        },
+        "impact--reflection": {
+          "impactReflectionBlock": {
+            "body": [
+              "I treated this portfolio as a living product, applying a PDCA cycle to refine the user experience post-launch.",
+              "- Qualitative Feedback (Professional Review): I actively sought critiques from Developers, Designers, and HR managers. Their diverse perspectives helped me optimize the code structure and refine the narrative to better align with hiring expectations.",
+              "- Quantitative Data (User Behavior): I integrated Microsoft Clarity to analyze real user interaction. Heatmaps and session recordings revealed navigation patterns, which I used to eliminate friction points and improve content discoverability.",
+              "- Agile Refinement (Rapid Action): Feedback was never ignored. I maintained a CI/CD pipeline that allowed me to deploy fixes and UX improvements immediately upon discovery."
+            ],
+            "image": "/assets/portfolio-pdca-cycle.webp"
+          }
+        },
+        "key-learnings": {
+          "body": [
+            "Performance-focused development with Vite: Hands-on experience optimizing load speeds using plugins for async CSS and modulepreload.",
+            "Static-Dynamic hybrid architecture: Learned to integrate the Dev.to API with custom build scripts to manage \"static site + external content\" configurations.",
+            "Standardizing component and code quality: Established a consistent development workflow by implementing Storybook, Biome, and Husky.",
+            "Practical asset optimization: Implemented font preloading and image processing (Sharp) to ensure a fast and polished user experience."
+          ]
         }
       }
     }

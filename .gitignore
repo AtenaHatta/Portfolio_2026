@@ -28,3 +28,6 @@ dist-ssr
 
 # Unlighthouse (local scan output)
 .unlighthouse
+
+# Cursor
+.cursor

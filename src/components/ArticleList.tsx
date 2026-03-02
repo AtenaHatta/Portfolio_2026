@@ -31,7 +31,7 @@ export default function ArticleList({ colors, maxItems, standalone, tagFilter }:
   if (articles.length === 0) {
     return (
       <p className="font-light" style={{ color: secondaryColor }}>
-        No articles found.
+        No articles yet.
       </p>
     );
   }

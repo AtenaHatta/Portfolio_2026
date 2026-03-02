@@ -57,9 +57,8 @@ function AboutPage({ colors }: AboutPageProps) {
                     className="text-lg font-light leading-relaxed"
                     style={{ color: colors.background.text }}
                   >
-                    I handle everything from app architecture to design planning with Figma,
-                    performance-focused coding, and deployment. I'm particularly meticulous about
-                    the overall design and layout, down to the pixel.
+                    I'm a full stack developer focused on building accessible, performant web
+                    applications. I enjoy turning ideas into clean, user-centered products.
                   </p>
                 </div>
 

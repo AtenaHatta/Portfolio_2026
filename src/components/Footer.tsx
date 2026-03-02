@@ -5,6 +5,13 @@ interface FooterProps {
   colors: ReturnType<typeof getColors>;
 }
 
+const FOOTER_NAV = [
+  { label: 'Home', to: '/' },
+  { label: 'About', to: '/about' },
+  { label: 'Project', to: '/project' },
+  { label: 'Articles', to: '/articles' },
+] as const;
+
 const GITHUB_ICON = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -41,13 +48,6 @@ const DEVTO_ICON = (
   </svg>
 );
 
-const navLinks = [
-  { label: 'Home', to: '/' },
-  { label: 'About', to: '/about' },
-  { label: 'Project', to: '/project' },
-  { label: 'Article', to: '/articles' },
-] as const;
-
 const socialLinks = [
   { href: 'https://www.linkedin.com/in/atenahatta/', icon: LINKEDIN_ICON, label: 'LinkedIn' },
   { href: 'https://github.com/AtenaHatta', icon: GITHUB_ICON, label: 'GitHub' },
@@ -64,6 +64,7 @@ function getVancouverYear(): string {
 function Footer({ colors }: FooterProps) {
   const isDark = colors.background.bg === '#000000';
   const footerBg = isDark ? '#151515' : '#E8E8E8';
+
   return (
     <footer
       className="transition-colors duration-200 h-[80px] flex items-center"
@@ -74,17 +75,14 @@ function Footer({ colors }: FooterProps) {
       aria-label="Site footer"
     >
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-3 sm:gap-4 shrink-0">
-        {/* Left: Copyright */}
         <div className="flex items-center justify-center sm:justify-start">
           <span className="text-sm font-light" style={{ color: colors.background.text }}>
             Copyright © {getVancouverYear()}
           </span>
         </div>
-
-        {/* Right: Nav links + Social icons (min-h to avoid wrap-induced CLS) */}
         <div className="flex flex-wrap items-center justify-center sm:justify-end gap-6 min-h-[2rem]">
           <nav className="flex items-center gap-6">
-            {navLinks.map(({ label, to }) => (
+            {FOOTER_NAV.map(({ label, to }) => (
               <Link
                 key={to}
                 to={to}

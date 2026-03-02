@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react';
-import { Route, BrowserRouter as Router, Routes, useLocation } from 'react-router-dom';
+import { Outlet, Route, BrowserRouter as Router, Routes, useLocation } from 'react-router-dom';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import { useTheme } from './hooks/useTheme';
@@ -18,8 +18,37 @@ const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
 const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
 const ArticlePage = lazy(() => import('./pages/ArticlePage'));
 
-function App() {
+function MainLayout() {
+  const { colors } = useTheme();
+  return (
+    <>
+      <HeaderWithTheme />
+      <main className="min-h-[60vh] flex-1">
+        <Suspense
+          fallback={
+            <div
+              className="min-h-[60vh] flex items-center justify-center"
+              style={{ color: colors.background.text }}
+            >
+              Loading...
+            </div>
+          }
+        >
+          <Outlet />
+        </Suspense>
+      </main>
+      <Footer colors={colors} />
+    </>
+  );
+}
+
+function HeaderWithTheme() {
   const { isDarkMode, toggleTheme, colors } = useTheme();
+  return <Header isDarkMode={isDarkMode} toggleDarkMode={toggleTheme} colors={colors} />;
+}
+
+function App() {
+  const { colors } = useTheme();
 
   return (
     <Router>
@@ -31,28 +60,15 @@ function App() {
           color: colors.background.text,
         }}
       >
-        <Header isDarkMode={isDarkMode} toggleDarkMode={toggleTheme} colors={colors} />
-        <main className="min-h-[60vh] flex-1">
-          <Suspense
-            fallback={
-              <div
-                className="min-h-[60vh] flex items-center justify-center"
-                style={{ color: colors.background.text }}
-              >
-                Loading...
-              </div>
-            }
-          >
-            <Routes>
-              <Route path="/" element={<HomePage colors={colors} />} />
-              <Route path="/about" element={<AboutPage colors={colors} />} />
-              <Route path="/project" element={<ProjectsPage colors={colors} />} />
-              <Route path="/project/:id" element={<ProjectDetailPage colors={colors} />} />
-              <Route path="/articles" element={<ArticlePage colors={colors} />} />
-            </Routes>
-          </Suspense>
-        </main>
-        <Footer colors={colors} />
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<HomePage colors={colors} />} />
+            <Route path="about" element={<AboutPage colors={colors} />} />
+            <Route path="project" element={<ProjectsPage colors={colors} />} />
+            <Route path="project/:id" element={<ProjectDetailPage colors={colors} />} />
+            <Route path="articles" element={<ArticlePage colors={colors} />} />
+          </Route>
+        </Routes>
       </div>
     </Router>
   );
