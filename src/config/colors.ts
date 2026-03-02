@@ -55,7 +55,7 @@ export const colors = {
       bg: '#1F2937', // dark gray
     },
     block: {
-      bg: '#111827', // darker gray for Tech stack / Process blocks
+      bg: 'rgba(217, 217, 217, 0.11)', // #D9D9D9 at 11% opacity (slightly brighter)
     },
     challengeSolutionLabel: {
       bg: '#0a0a0a', // black for Challenge/Solution in dark mode

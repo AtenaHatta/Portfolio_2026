@@ -430,40 +430,71 @@
       }
     },
     {
-      "id": "dynamic-cms",
-      "type": "Dynamic Website",
-      "title": "Dynamic CMS-Driven Website",
-      "technologies": ["Nextjs", "Convex", "TypeScript", "TailwindCSS", "Convex"],
-      "year": "Dec 24",
+      "id": "portfolio",
+      "type": "Web site",
+      "title": "Portfolio",
+      "technologies": ["React", "Strapi", "TypeScript", "TailwindCSS"],
+      "year": "January, 2026",
       "role": "Full stack Developer",
-      "member": "2 Developers",
+      "member": "1 Developer",
       "demoUrl": "#",
       "sourceUrl": "#",
-      "designUrl": "#"
-    },
-    {
-      "id": "marketing-analytics",
-      "type": "Dynamic Website",
-      "title": "Marketing Analytics Website",
-      "technologies": ["Vue", "TypeScript", "PostgreSQL", "Strapi", "Cloudinary"],
-      "year": "Dec 24",
-      "role": "Full stack Developer",
-      "member": "2 Developers",
-      "demoUrl": "#",
-      "sourceUrl": "#",
-      "designUrl": "#"
-    },
-    {
-      "id": "wordpress-hubspot",
-      "type": "CMS",
-      "title": "Custom WordPress Website (HubSpot + Custom CSS)",
-      "technologies": ["WordPress", "Elementor", "HubSpot", "Custom CSS"],
-      "year": "Dec 24",
-      "role": "Full stack Developer",
-      "member": "2 Developers",
-      "demoUrl": "#",
-      "sourceUrl": "#",
-      "designUrl": "#"
+      "designUrl": "#",
+      "topImage": "/assets/portfolio-hero.png",
+      "sections": {
+        "product-overview": {
+          "heading": "Portfolio",
+          "body": [
+            "Personal portfolio site built with React, TypeScript, and Tailwind CSS. Showcases projects, work experience, and articles."
+          ],
+          "image": "/assets/portfolio-hero.png"
+        },
+        "process": {
+          "imageTitle": "End-to-End Project Lifecycle",
+          "timelineSteps": [
+            { "title": "Research", "items": ["Journey Mapping", "Research User Experience"] },
+            { "title": "Strategy", "items": ["System Design", "Tech stack"] },
+            { "title": "Design", "items": ["Wireframes and Mockups"] },
+            { "title": "Development", "items": ["Executed precise Coding"] },
+            { "title": "Deployment", "items": ["Development, CI/CD"] },
+            { "title": "Testing", "items": ["Usability Testing", "maintained a PDCA cycle"] }
+          ],
+          "body": [
+            "This lifecycle was built not just to refine visuals, but to harmonize engineering feasibility with a seamless user experience. By handling everything from scratch-built wireframes to final implementation, I ensure that the original design intent is 100% embodied in the final product."
+          ]
+        },
+        "system-design": {
+          "researchStrategy": {
+            "phaseTitle": "Phase 1: Research & Strategy",
+            "findings": [
+              {
+                "title": "Performance Expectation",
+                "metric": "2 sec",
+                "description": "less Load Time is expected for a positive first impression. Users decide whether to stay or leave in just 50 milliseconds.",
+                "image": "/assets/portfolio-research-performance.webp"
+              },
+              {
+                "title": "Prioritized Information",
+                "metric": "80%",
+                "description": "of recruiters look for 'Process & Problem Solving' over just 'Visuals'.",
+                "image": "/assets/portfolio-research-prioritized.webp"
+              },
+              {
+                "title": "Accessibility Standards",
+                "metric": "1 in 6 people",
+                "description": "(16% of the global population) experience significant disability. High contrast is a necessity.",
+                "image": "/assets/portfolio-research-accessibility.webp"
+              }
+            ],
+            "strategyTitle": "STRATEGY DEFINED",
+            "strategyItems": [
+              "Enforce strict performance budgets (LCP < 2s).",
+              "Prioritize 'Process' documentation over art",
+              "Adhere to WCAG standards for inclusivity."
+            ]
+          }
+        }
+      }
     }
   ],
   "detailSections": [

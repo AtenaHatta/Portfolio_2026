@@ -11,7 +11,9 @@ interface ProjectsSectionProps {
 const FEATURED_PROJECT_IDS = ['e-certificate', 'college-cms'];
 
 function ProjectsSection({ colors, standalone = false }: ProjectsSectionProps) {
-  const projectIdsToShow = standalone ? FEATURED_PROJECT_IDS : FEATURED_PROJECT_IDS.slice(0, 4);
+  const projectIdsToShow = standalone
+    ? projectsData.projects.map((p) => p.id)
+    : FEATURED_PROJECT_IDS.slice(0, 4);
   const projects = projectIdsToShow
     .flatMap((id) => {
       const p = projectsData.projects.find((pr) => pr.id === id);

@@ -82,73 +82,30 @@ function WorkSection({ colors }: WorkSectionProps) {
                   href={work.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-stretch gap-6 rounded-lg p-4 -mx-4 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800/80"
+                  className="group flex flex-col sm:flex-row gap-2 sm:gap-4 py-4 sm:py-3 border-b border-transparent hover:opacity-80 transition-opacity"
+                  style={{ borderColor: `${colors.secondary.text}20` }}
                 >
-                  {/* Icon: square, larger size */}
-                  {work.icon ? (
-                    <div className="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden sm:opacity-50 sm:transition-opacity sm:group-hover:opacity-100 pointer-events-none">
+                  {work.icon && (
+                    <div className="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-700 sm:opacity-70 sm:group-hover:opacity-100 transition-opacity">
                       <AssetImage
                         src={work.icon}
                         alt={`${work.company} logo`}
-                        width={80}
-                        height={80}
+                        width={48}
+                        height={48}
                         loading="lazy"
                         decoding="async"
                         className="w-full h-full object-cover"
                       />
                     </div>
-                  ) : (
-                    <div
-                      className="flex-shrink-0 w-20 h-20 rounded-lg pointer-events-none"
-                      style={{ backgroundColor: colors.chip.bg }}
-                    />
                   )}
-
-                  {/* Work Info: on mobile = title, company, period, location; on sm+ = title+company left, period+location right */}
-                  <div className="flex-1 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-4 min-w-0">
-                    <div>
-                      <h3
-                        className="text-xl font-light mb-1"
-                        style={{ color: colors.background.text }}
-                      >
-                        {work.title}
-                      </h3>
-                      <p className="text-base font-light" style={{ color: colors.secondary.text }}>
-                        {work.company}
-                      </p>
-                      {/* Period under title/company on mobile only */}
-                      <p
-                        className="text-base font-light sm:hidden mt-1"
-                        style={{ color: colors.secondary.text }}
-                      >
-                        {work.period}
-                      </p>
-                      {work.location && (
-                        <p
-                          className="text-base font-light sm:hidden"
-                          style={{ color: colors.secondary.text }}
-                        >
-                          {work.location}
-                        </p>
-                      )}
-                    </div>
-                    {/* Period + location on desktop (right-aligned) */}
-                    <div className="text-right flex-shrink-0 hidden sm:block">
-                      <p
-                        className="text-base font-light whitespace-nowrap"
-                        style={{ color: colors.secondary.text }}
-                      >
-                        {work.period}
-                      </p>
-                      {work.location && (
-                        <p
-                          className="text-base font-light whitespace-nowrap mt-1"
-                          style={{ color: colors.secondary.text }}
-                        >
-                          {work.location}
-                        </p>
-                      )}
-                    </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-light" style={{ color: colors.secondary.text }}>
+                      {work.period}
+                      {work.location ? ` · ${work.location}` : ''}
+                    </p>
+                    <p className="text-base font-medium" style={{ color: colors.background.text }}>
+                      {work.title} at {work.company}
+                    </p>
                   </div>
                 </a>
               ))}

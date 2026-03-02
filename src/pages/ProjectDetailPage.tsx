@@ -45,6 +45,21 @@ interface KeyFeature {
   description: string;
 }
 
+/** Phase 1: Research & Strategy — findings cards + strategy defined list */
+interface ResearchFinding {
+  title: string;
+  metric: string;
+  description: string;
+  image: string;
+}
+
+interface ResearchStrategy {
+  phaseTitle: string;
+  findings: ResearchFinding[];
+  strategyTitle: string;
+  strategyItems: string[];
+}
+
 interface SectionContent {
   heading?: string;
   body: string[];
@@ -62,6 +77,10 @@ interface SectionContent {
   imageAfterIndex?: number;
   imageAfterIndexSrc?: string;
   keyFeatures?: KeyFeature[];
+  /** Horizontal timeline steps (e.g. Process: Research → Strategy → …). Rendered as code, not image. */
+  timelineSteps?: { title: string; items: string[] }[];
+  /** Phase 1: Research & Strategy layout (system-design) — findings cards + arrow + strategy list */
+  researchStrategy?: ResearchStrategy;
   relatedPosts?: { title: string; url: string; date?: string }[];
   /** When true, show latest 2 posts from dev.to (same as articles page) instead of static relatedPosts */
   relatedPostsFromDevTo?: boolean;
@@ -532,6 +551,136 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                             )}
                           {(() => {
                             const section = project.sections[slug];
+                            const researchStrategy = (section as SectionContent).researchStrategy;
+                            if (
+                              slug === 'system-design' &&
+                              researchStrategy != null &&
+                              researchStrategy.findings?.length > 0
+                            ) {
+                              // Phase 1: Research & Strategy — findings cards, arrow, strategy defined
+                              const { phaseTitle, findings, strategyTitle, strategyItems } =
+                                researchStrategy;
+                              const sectionBg = colors.block?.bg ?? colors.chip.bg;
+                              const cardBg = '#807C7C';
+                              return (
+                                <div
+                                  className="rounded-lg p-6 md:p-8 space-y-6"
+                                  style={{
+                                    backgroundColor: sectionBg,
+                                    color: colors.background.text,
+                                  }}
+                                >
+                                  <h3
+                                    className="text-lg font-light"
+                                    style={{ color: colors.background.text }}
+                                  >
+                                    {phaseTitle}
+                                  </h3>
+                                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    {findings.map((f, i) => {
+                                      const imageHeight = 'h-52';
+                                      return (
+                                        <div
+                                          key={i}
+                                          className="rounded-sm text-center flex flex-col overflow-hidden justify-between"
+                                          style={{
+                                            backgroundColor: cardBg,
+                                            color: '#000',
+                                          }}
+                                        >
+                                          <div className="pt-6 pb-2 px-4 space-y-1 flex-shrink-0">
+                                            <p
+                                              className="text-sm font-medium opacity-90"
+                                              style={{ color: '#000' }}
+                                            >
+                                              {f.title}
+                                            </p>
+                                            <p
+                                              className="text-lg font-bold py-2"
+                                              style={{ color: '#000' }}
+                                            >
+                                              {f.metric}
+                                            </p>
+                                            <p
+                                              className="text-xs font-light leading-relaxed opacity-90"
+                                              style={{ color: '#000' }}
+                                            >
+                                              {f.description}
+                                            </p>
+                                          </div>
+                                          <div
+                                            className={`w-full overflow-hidden flex-shrink-0 ${imageHeight} min-h-0`}
+                                          >
+                                            <AssetImage
+                                              src={f.image}
+                                              alt=""
+                                              width={400}
+                                              height={160}
+                                              loading="lazy"
+                                              decoding="async"
+                                              className="w-full h-full object-cover object-center"
+                                              style={getImageStyle(f.image)}
+                                              onLoad={handleImageLoad}
+                                            />
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                  <div className="flex justify-center py-2" aria-hidden>
+                                    <AssetImage
+                                      src="/assets/portfolio-arrow-down.webp"
+                                      alt=""
+                                      width={150}
+                                      height={150}
+                                      loading="lazy"
+                                      decoding="async"
+                                      className="object-contain"
+                                      style={{ opacity: 0.9 }}
+                                      onLoad={handleImageLoad}
+                                    />
+                                  </div>
+                                  <div
+                                    className="p-6 rounded-xs flex justify-between md:flex-row  md:gap-6"
+                                    style={{
+                                      backgroundColor: cardBg,
+                                      color: '#fff',
+                                    }}
+                                  >
+                                    <div className="flex-1 space-y-3">
+                                      <p
+                                        className="text-sm font-semibold uppercase tracking-wide opacity-90"
+                                        style={{ color: '#000' }}
+                                      >
+                                        {strategyTitle}
+                                      </p>
+                                      <ol className="space-y-2 list-decimal list-inside font-light text-sm">
+                                        {strategyItems.map((item, j) => (
+                                          <li
+                                            key={j}
+                                            className="leading-relaxed"
+                                            style={{ color: '#000' }}
+                                          >
+                                            {item}
+                                          </li>
+                                        ))}
+                                      </ol>
+                                    </div>
+                                    <AssetImage
+                                      src="/assets/portfolio-research-result.webp"
+                                      alt=""
+                                      width={150}
+                                      height={150}
+                                      loading="lazy"
+                                      decoding="async"
+                                      className="object-contain"
+                                      style={{ opacity: 0.9 }}
+                                      onLoad={handleImageLoad}
+                                    />
+                                  </div>
+                                </div>
+                              );
+                            }
                             const numberedItems = section.numberedItems;
                             const techStackSections = section.techStackSections;
                             if (
@@ -556,7 +705,9 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                       {section.heading && (
                                         <h3
                                           className="text-lg font-light"
-                                          style={{ color: colors.background.text }}
+                                          style={{
+                                            color: colors.background.text,
+                                          }}
                                         >
                                           {section.heading}
                                         </h3>
@@ -565,7 +716,9 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                         <div key={i} className="space-y-2">
                                           <p
                                             className="font-medium flex items-start gap-2"
-                                            style={{ color: colors.background.text }}
+                                            style={{
+                                              color: colors.background.text,
+                                            }}
                                           >
                                             <span
                                               className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 bg-current opacity-80"
@@ -591,12 +744,16 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                                     <>
                                                       <span
                                                         className="opacity-80"
-                                                        style={{ color: colors.background.text }}
+                                                        style={{
+                                                          color: colors.background.text,
+                                                        }}
                                                       >
                                                         {keyPart}
                                                       </span>
                                                       <span
-                                                        style={{ color: colors.background.text }}
+                                                        style={{
+                                                          color: colors.background.text,
+                                                        }}
                                                       >
                                                         {valuePart}
                                                       </span>
@@ -604,7 +761,9 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                                   ) : (
                                                     <span
                                                       className="opacity-80"
-                                                      style={{ color: colors.background.text }}
+                                                      style={{
+                                                        color: colors.background.text,
+                                                      }}
                                                     >
                                                       {item}
                                                     </span>
@@ -632,14 +791,18 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                           <li key={i} className="font-light">
                                             <span
                                               className="font-medium"
-                                              style={{ color: colors.background.text }}
+                                              style={{
+                                                color: colors.background.text,
+                                              }}
                                             >
                                               {num}. {item.title}
                                             </span>
                                             {item.description && (
                                               <p
                                                 className="mt-1 leading-relaxed opacity-80"
-                                                style={{ color: colors.background.text }}
+                                                style={{
+                                                  color: colors.background.text,
+                                                }}
                                               >
                                                 {item.description}
                                               </p>
@@ -650,7 +813,9 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                                   <li
                                                     key={j}
                                                     className="leading-relaxed opacity-80"
-                                                    style={{ color: colors.background.text }}
+                                                    style={{
+                                                      color: colors.background.text,
+                                                    }}
                                                   >
                                                     {point}
                                                   </li>
@@ -672,7 +837,9 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                               <h3
                                                 key={i}
                                                 className="text-lg font-light"
-                                                style={{ color: colors.background.text }}
+                                                style={{
+                                                  color: colors.background.text,
+                                                }}
                                               >
                                                 {paragraph}
                                               </h3>
@@ -680,7 +847,9 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                               <p
                                                 key={i}
                                                 className="font-light leading-relaxed opacity-80"
-                                                style={{ color: colors.background.text }}
+                                                style={{
+                                                  color: colors.background.text,
+                                                }}
                                               >
                                                 {paragraph}
                                               </p>
@@ -708,7 +877,9 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                     {section.heading && (
                                       <h3
                                         className="text-lg font-light"
-                                        style={{ color: colors.background.text }}
+                                        style={{
+                                          color: colors.background.text,
+                                        }}
                                       >
                                         {section.heading}
                                       </h3>
@@ -717,7 +888,9 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                       <div key={i} className="space-y-2">
                                         <p
                                           className="font-medium flex items-start gap-2"
-                                          style={{ color: colors.background.text }}
+                                          style={{
+                                            color: colors.background.text,
+                                          }}
                                         >
                                           <span
                                             className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 bg-current opacity-80"
@@ -741,18 +914,26 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                                   <>
                                                     <span
                                                       className="opacity-80"
-                                                      style={{ color: colors.background.text }}
+                                                      style={{
+                                                        color: colors.background.text,
+                                                      }}
                                                     >
                                                       {keyPart}
                                                     </span>
-                                                    <span style={{ color: colors.background.text }}>
+                                                    <span
+                                                      style={{
+                                                        color: colors.background.text,
+                                                      }}
+                                                    >
                                                       {valuePart}
                                                     </span>
                                                   </>
                                                 ) : (
                                                   <span
                                                     className="opacity-80"
-                                                    style={{ color: colors.background.text }}
+                                                    style={{
+                                                      color: colors.background.text,
+                                                    }}
                                                   >
                                                     {item}
                                                   </span>
@@ -794,7 +975,9 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                     >
                                       <p
                                         className="font-medium text-lg"
-                                        style={{ color: colors.background.text }}
+                                        style={{
+                                          color: colors.background.text,
+                                        }}
                                       >
                                         {block.title}
                                       </p>
@@ -823,7 +1006,9 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                                             colors.chip.bg,
                                                           color: colors.background.text,
                                                         }
-                                                      : { color: colors.background.text }
+                                                      : {
+                                                          color: colors.background.text,
+                                                        }
                                                   }
                                                 >
                                                   {sub.heading}
@@ -834,13 +1019,17 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                                       <div key={k} className="space-y-2">
                                                         <p
                                                           className="font-medium"
-                                                          style={{ color: colors.background.text }}
+                                                          style={{
+                                                            color: colors.background.text,
+                                                          }}
                                                         >
                                                           {item.title}
                                                         </p>
                                                         <p
                                                           className="font-light leading-relaxed opacity-80"
-                                                          style={{ color: colors.background.text }}
+                                                          style={{
+                                                            color: colors.background.text,
+                                                          }}
                                                         >
                                                           {item.body}
                                                         </p>
@@ -852,7 +1041,9 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                                     <p
                                                       key={k}
                                                       className="font-light leading-relaxed opacity-80"
-                                                      style={{ color: colors.background.text }}
+                                                      style={{
+                                                        color: colors.background.text,
+                                                      }}
                                                     >
                                                       {renderParagraphWithHighlights(paragraph)}
                                                     </p>
@@ -919,6 +1110,94 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                 </div>
                               );
                             }
+                            const timelineSteps = (section as SectionContent).timelineSteps;
+                            if (timelineSteps != null && timelineSteps.length > 0) {
+                              const timelineTitle = (section as SectionContent).imageTitle;
+                              return (
+                                <div className="space-y-8">
+                                  {timelineTitle && (
+                                    <p
+                                      className="text-lg font-light"
+                                      style={{ color: colors.background.text }}
+                                    >
+                                      {timelineTitle}
+                                    </p>
+                                  )}
+                                  <div
+                                    className="relative flex flex-col sm:flex-row sm:items-stretch gap-6 sm:gap-4 overflow-x-auto pb-4"
+                                    aria-label="Project lifecycle timeline"
+                                  >
+                                    {/* Horizontal line connecting nodes - through center of each node (6px from top of row) */}
+                                    <div
+                                      className="hidden sm:block absolute left-0 right-0 h-px"
+                                      style={{
+                                        top: '6px',
+                                        backgroundColor: colors.background.text,
+                                        opacity: 0.4,
+                                      }}
+                                      aria-hidden
+                                    />
+                                    {timelineSteps.map((step, i) => (
+                                      <div
+                                        key={i}
+                                        className="relative flex flex-col items-center flex-1 min-w-[120px]"
+                                      >
+                                        {/* Node on the line */}
+                                        <div
+                                          className="relative z-10 w-3 h-3 rounded-full flex-shrink-0 mb-3 border-2 border-transparent"
+                                          style={{
+                                            backgroundColor: colors.background.text,
+                                            opacity: 0.9,
+                                          }}
+                                          aria-hidden
+                                        />
+                                        {/* Title box */}
+                                        <div
+                                          className="w-full rounded px-3 py-2 mb-2 text-center text-sm font-medium"
+                                          style={{
+                                            backgroundColor:
+                                              colors.chip?.bg ?? colors.block?.bg ?? '#374151',
+                                            color: colors.background.text,
+                                          }}
+                                        >
+                                          {step.title}
+                                        </div>
+                                        {/* Items */}
+                                        <div className="space-y-0.5 text-center">
+                                          {step.items.map((item, j) => (
+                                            <p
+                                              key={j}
+                                              className="text-sm font-light leading-snug"
+                                              style={{
+                                                color: colors.background.text,
+                                                opacity: 0.9,
+                                              }}
+                                            >
+                                              {item}
+                                            </p>
+                                          ))}
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                  {section.body && section.body.length > 0 && (
+                                    <div className="pt-4 space-y-3">
+                                      {section.body.map((paragraph, i) => (
+                                        <p
+                                          key={i}
+                                          className="font-light leading-relaxed opacity-90"
+                                          style={{
+                                            color: colors.background.text,
+                                          }}
+                                        >
+                                          {renderParagraphWithHighlights(paragraph)}
+                                        </p>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            }
                             const relatedPosts = (section as SectionContent).relatedPosts;
                             const relatedPostsFromDevTo = (section as SectionContent)
                               .relatedPostsFromDevTo;
@@ -964,7 +1243,9 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                           <div className="flex-shrink-0 w-full rounded-lg overflow-hidden bg-neutral-200 dark:bg-neutral-700 aspect-video sm:aspect-auto sm:w-48 h-40 sm:h-32">
                                             <div
                                               className="w-full h-full flex items-center justify-center opacity-50"
-                                              style={{ color: colors.secondary.text }}
+                                              style={{
+                                                color: colors.secondary.text,
+                                              }}
                                             >
                                               <span className="text-4xl">📝</span>
                                             </div>
@@ -973,14 +1254,18 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                             {post.date != null && post.date !== '' && (
                                               <p
                                                 className="text-sm font-light mb-2"
-                                                style={{ color: colors.secondary.text }}
+                                                style={{
+                                                  color: colors.secondary.text,
+                                                }}
                                               >
                                                 {post.date}
                                               </p>
                                             )}
                                             <h3
                                               className="text-xl font-light flex-1"
-                                              style={{ color: colors.background.text }}
+                                              style={{
+                                                color: colors.background.text,
+                                              }}
                                             >
                                               {post.title}
                                             </h3>
@@ -991,7 +1276,9 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                               viewBox="0 0 24 24"
                                               stroke="currentColor"
                                               strokeWidth={2}
-                                              style={{ color: colors.background.text }}
+                                              style={{
+                                                color: colors.background.text,
+                                              }}
                                             >
                                               <path
                                                 strokeLinecap="round"
@@ -1014,13 +1301,17 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                     <li key={i} className="font-light">
                                       <span
                                         className="font-medium"
-                                        style={{ color: colors.background.text }}
+                                        style={{
+                                          color: colors.background.text,
+                                        }}
                                       >
                                         {i + 1}. {item.title}
                                       </span>
                                       <p
                                         className="mt-1 leading-relaxed opacity-80"
-                                        style={{ color: colors.background.text }}
+                                        style={{
+                                          color: colors.background.text,
+                                        }}
                                       >
                                         {item.description}
                                       </p>
@@ -1030,7 +1321,9 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                             <li
                                               key={j}
                                               className="leading-relaxed opacity-80"
-                                              style={{ color: colors.background.text }}
+                                              style={{
+                                                color: colors.background.text,
+                                              }}
                                             >
                                               {point}
                                             </li>
@@ -1116,13 +1409,17 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                                         <li key={i} className="font-light">
                                           <span
                                             className="font-medium"
-                                            style={{ color: colors.background.text }}
+                                            style={{
+                                              color: colors.background.text,
+                                            }}
                                           >
                                             {feat.title}:
                                           </span>
                                           <span
                                             className="opacity-80 ml-1"
-                                            style={{ color: colors.background.text }}
+                                            style={{
+                                              color: colors.background.text,
+                                            }}
                                           >
                                             {feat.description}
                                           </span>
@@ -1193,7 +1490,7 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
                             </div>
                           )}
                           {project.sections[slug].videoPlaceholder && (
-                            <p className="mt-6 font-light italic opacity-70">動画挿入</p>
+                            <p className="mt-6 font-light italic opacity-70">Insert video</p>
                           )}
                         </>
                       ) : (
@@ -1218,13 +1515,13 @@ function ProjectDetailPage({ colors }: ProjectDetailPageProps) {
           onKeyDown={(e) => e.key === 'Escape' && setModalImage(null)}
           role="dialog"
           aria-modal="true"
-          aria-label="拡大画像"
+          aria-label="expanded image"
         >
           <button
             type="button"
             onClick={() => setModalImage(null)}
             className="absolute top-4 right-4 p-2 rounded-full hover:bg-white/10 transition-colors text-white"
-            aria-label="閉じる"
+            aria-label="close"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
